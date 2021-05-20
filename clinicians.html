@@ -1,41 +1,109 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<meta charset="UTF-8">
+    <title>COVID-19 Vaccine Tracker</title>
 </head>
+
 <body>
+  <center>
 <a href="index.html">Home</a>
 <a href="vaccines.html">Vaccines</a>
+<a href="appointments.html">Appointments</a>
 <a href="patients.html">Patients</a>
 <a href="clinics.html">Clinics</a>
 <a href="clinicians.html">Clinicians</a>
 <a href="manufacturers.html">Manufacturers</a>
-<br>
-<br>
-<h1>Set an Appointment</h1>
-<form>
-		<label for="clinicianID">Clinician ID:</label><br>
+</center>
+<center><h1>Clinician Records</h1></center>
+<center><form style="margin:10;float:left;width: 30%">
+		  <label for="clinicianID">Clinician ID:</label>
   		<input type="text" id="clinicianID" name="clinicianID"><br>
-  		<label for="patientID">Patient ID:</label><br>
-  		<input type="text" id="patientID" name="patientID"><br>
-  		<label for="clinicID">Address:</label><br>
-  		<input type="text" id="clinicID" name="clinicID"><br>
-  		<label for="name">Clinic Name:</label><br>
+      <label for="clinicID">Clinic ID:</label>
+      <input type="text" id="clinicianID" name="clinicianID"><br>
+  		<label for="name">Clinician Name:</label>
   		<input type="text" id="name" name="name"><br>
-  		<label for="cert">Certified:</label><br>
-  		<input type="radio" id="cert" name="cert" value="True">True<br>
+      <label for="dob">Date of Birth:</label>
+      <input type="Date" id="dob" name="dob"><br>
+      <label for="sex">Sex:</label>
+      <input type="radio" id="sex" name="sex" value="male">Male
+      <input type="radio" id="sex" name="sex" value="Female">Female<br>
+      <label for="age">Email:</label>
+      <input type="text" id="email" name="email"><br>
+      <label for="phone">Phone Number:</label>
+      <input type="text" id="phone" name="phone"><br>
+  		<label for="cert">Certified:</label>
+  		<input type="radio" id="cert" name="cert" value="True">True
   		<input type="radio" id="cert" name="cert" value="False">False<br>
-  		<label for="apt">Appointment Time:</label><br>
-  		<input type="text" id="apt" name="apt"><br>
-  		<input type="submit" value="Submit/Update Appointment">
+  		<input type="submit" value="Submit">
+        <input type="submit" value="Update">
 	</form>
-<br>
-<br>
-<h1>Delete an Appointment</h1>
-<form>
-  		<label for="patientID">Patient ID:</label><br>
+</center>
+<center><form style="float:right;width: 40%">
+  		<label for="patientID">Clinician ID:</label><br>
   		<input type="text" id="patientID" name="patientID"><br>
-  		<input type="submit" value="Delete Appointment">
+  		<input type="submit" value="Delete Clinician">
 	</form>
+  </center>
+  <center><form id="form"> 
+  <input type="search" id="query" name="q" placeholder="Search...">
+  <button>Search</button>
+</form></center>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+    <TABLE style="margin: 0px auto;" BORDER="5"    WIDTH="90%"   CELLPADDING="4" CELLSPACING="3">
+   <TR>
+      </TH>
+   </TR>
+   <TR>
+      <TH>Clinician ID</TH>
+      <TH>Clinic ID</TH>
+      <TH>Clinician Name</TH>
+      <TH>Date of Birth</TH>
+      <TH>Sex</TH>
+      <TH>Email</TH>
+      <TH>Phone Number</TH>
+      <TH>Certified</TH>
+   </TR>
+   <TR ALIGN="CENTER">
+      <TD>1</TD>
+      <TD>3</TD>
+      <TD>Megan Smith</TD>
+      <TD>1994-09-18</TD>
+      <TD>Female</TD>
+      <TD>meg123@aol.com</TD>
+      <TD>123-555-1265</TD>
+      <TD>True</TD>
+   </TR>
+   <TR ALIGN="CENTER">
+      <TD>2</TD>
+      <TD>2</TD>
+      <TD>Jill Moore</TD>
+      <TD>1985-12-13</TD>
+      <TD>Female</TD>
+      <TD>jill12@yahoo.com</TD>
+      <TD>595-345-1178</TD>
+      <TD>True</TD>
+   </TR>
+   <TR ALIGN="CENTER">
+      <TD>3</TD>
+      <TD>1</TD>
+      <TD>Robert Burt</TD>
+      <TD>1970-08-08</TD>
+      <TD>Male</TD>
+      <TD>robbie11@gmail.com</TD>
+      <TD>222-453-2354</TD>
+      <TD>False</TD>
+   </TR>
+</TABLE> 
 </body>
 </html>
