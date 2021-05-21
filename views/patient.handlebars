@@ -1,0 +1,133 @@
+<html>
+<head>
+   <meta charset="UTF-8">
+   <title>COVID-19 Vaccine Tracker</title>
+</head>
+<body>
+  <center>
+<a href="index.html">Home</a>
+<a href='/vaccines'>Vaccines</a>
+<a href="/appointments">Appointments</a>
+<a href="/patients">Patients</a>
+<a href="/clinics">Clinics</a>
+<a href="/clinicians">Clinicians</a>
+<a href="/manufacturers">Manufacturers</a></body>
+<center><h1>Patient Records</h1></center>
+  <center><form style="margin:10;float:left;width: 30%">
+    <label for="patID">Patient ID:</label>
+      <input type="text" id="patID" name="patID"><br>
+      <label for="vacID">Vaccine ID:</label>
+      <input type="text" id="vacID" name="vacID"><br>
+      <label for="patientName">Name:</label>
+      <input type="text" id="patientName" name="patientName"><br>
+      <label for="dob">Date of Birth:</label>
+      <input type="date" id="dob" name="dob"><br>
+      <label for="sex">Sex:</label>
+      <input type="radio" id="sex" name="sex" value="male">Male
+      <input type="radio" id="sex" name="sex" value="Female">Female<br>
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email"><br>
+      <label for="phone">Phone Number:</label>
+      <input type="text" id="phone" name="phone"><br>
+      <input type="submit" value="Submit">
+        <input type="submit" value="Update">
+  </form></center>
+  <center><form style="float:right;width: 40%">
+    <label for="patID">Patient ID:</label>
+      <input type="text" id="vacID" name="vacID"><br>
+      <input type="submit" value="Delete">
+  </form>
+  </center>
+  </form></center>
+  <center><form id="form"> 
+  <input type="search" id="query" name="q" placeholder="Search...">
+  <button>Search</button>
+</form></center>
+ <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <TABLE style="margin: 0px auto;" BORDER="5"    WIDTH="90%"   CELLPADDING="4" CELLSPACING="3">
+   <TR>
+      </TH>
+   </TR>
+   <TR>
+      <TH>Patient ID</TH>
+      <TH>Vaccine ID</TH>
+      <TH>Name</TH>
+      <TH>Date of Birth</TH>
+      <TH>Sex</TH>
+      <TH>Email</TH>
+      <TH>Phone Number</TH>
+   </TR>
+   {{#each patient}}
+   <TR ALIGN="CENTER">
+      <TD>{{patientID}}</TD>
+      <TD>{{vaccineID}}</TD>
+      <TD>{{name}}</TD>
+      <TD>{{dob}}</TD>
+      <TD>{{sex}}</TD>
+      <TD>{{email}}</TD>
+      <TD>{{phone}}</TD>
+   </TR>
+   {{/each}}
+</TABLE> 
+</body>  
+{{!-- <h3>Add new people:</h3>
+<form id="addperson" action="/people" method="post">
+    First name: <input type="text" name="fname"><br>
+    Last name: <input type="text" name="lname"><br>
+    Homeworld: <select name="homeworld"> 
+        {{#each planets}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    Age: <input type="number" name="age"><br>
+    <input type="submit" value="Submit">
+ </form>
+<br/> --}}
+
+{{!-- <form id='filter_people' action='' method=''>
+<!--- this form does not submit directly, the button handles all the interaction with backend -->
+    <label> Filter by homeworld </label>
+    <select id='homeworld_filter' name="homeworld"> 
+        {{#each planets}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    <input type="button" value="Filter" onclick="filterPeopleByHomeworld()">
+</form> --}}
+
+{{!-- <form id='search_people' action='' method=''>
+<!--- this form does not submit directly, the button handles all the interaction with backend -->
+    <label> Search people for first name starting with:</label>
+    <input id='first_name_search_string' type='text' name='first_name_search_string' value=''>
+    <input type="button" value="Search" onclick="searchPeopleByFirstName()">
+</form> --}}
+{{!-- <table>
+    <thead> 
+        <th>First Name</th> 
+        <th>Last Name</th> 
+        <th>Age</th>  
+    </thead> 
+    <tbody>
+        {{#each people}} 
+        <tr> 
+            <td>{{fname}}</td> 
+            <td>{{lname}}</td> 
+            <td>{{age}}</td>
+            <td><button onclick="deletePerson({{id}})">Delete</button></td>
+            <td><a href="/people/{{id}}">Update</a></td>
+        </tr> 
+        {{/each}} 
+    </tbody> 
+</table>  --}}
+</html>
