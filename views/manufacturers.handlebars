@@ -14,7 +14,6 @@
 <a href="/manufacturers">Manufacturers</a></body>
 <center><h1>Vaccines Administered Tracker</h1></center>
 <center><form id="addVac" action="/manufacturers" method="post" style="margin:10;float:left;width: 30%">
-      <h3>ADD VACCINE</h3>
       <label for="cert">Administered:</label>
       <input type="radio" id="administered" name="administered" value="True">True
       <input type="radio" id="administered" name="administered" value="False">False<br>
@@ -50,7 +49,7 @@
    <TR ALIGN="CENTER">
       <TD>{{manufactID}}</TD>
       <TD>{{administered}}</TD>
-      <td><button onclick="deletePerson({{id}})">Delete</button></td>
+      <td><button onclick="deleteManufacturer({{manufactID}})">Delete</button></td>
    </TR>
    {{/each}}
    </TR>

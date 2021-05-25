@@ -14,7 +14,6 @@
 <a href="/manufacturers">Manufacturers</a></body><h1>Clinic Tracker</h1></center>
 <center>
     <form id="clinics" action="/clinics" method="post" style="margin:10;float:left;width: 30%">
-      <h3>ADD CLINIC</h3>
       
       <label for="clinicName">Clinic Name:</label>
       <input type="text" id="clinicName" name="clinicName" required><br>
@@ -71,7 +70,7 @@
       <TD>{{parking}}</TD>
       <TD>{{publicTransport}}</TD>
       <TD>{{phone}}</TD>
-      <td><button onclick="deletePerson({{id}})">Delete</button></td>
+      <td><button onclick="deleteClinic({{clinicID}})">Delete</button></td>
       <td><a href="/people/{{id}}">Update</a></td>
    </TR>
    {{/each}}
