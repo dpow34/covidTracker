@@ -1,0 +1,159 @@
+<html>
+<head>
+   <meta charset="UTF-8">
+   <title>COVID-19 Vaccine Tracker</title>
+</head>
+<body>
+  <center>
+<a href="index.html">Home</a>
+<a href='/vaccines'>Vaccines</a>
+<a href="/appointments">Appointments</a>
+<a href="/patients">Patients</a>
+<a href="/clinics">Clinics</a>
+<a href="/clinicians">Clinicians</a>
+<a href="/manufacturers">Manufacturers</a></body></center>
+<center><h1>Clinician Records</h1></center>
+<center><form id="addClinician" action="/clinicians" method="post" style="margin:10;float:left;width: 30%">
+      Clinic ID: <select name ="clinicID">
+      {{#each clinics}}
+      <option>{{id}}</option>
+      {{/each}}
+      </select required><br>
+  	    <label for="name">Clinician Name:</label>
+  		<input type="text" id="name" name="name" required><br>
+      <label for="dob">Date of Birth:</label>
+      <input type="Date" id="dob" name="dob" required><br>
+      <label for="sex">Sex:</label>
+      <input type="radio" id="sex" name="sex" value="Male">Male
+      <input type="radio" id="sex" name="sex" value="Female">Female<br>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" placeholder="example@gmail.com" required><br>
+      <label for="phone">Phone Number:</label>
+      <input type="phone" id="phone" name="phone" placeholder="123-456-7890" required><br>
+  		<label for="cert">Certified:</label>
+  		<input type="radio" id="certification" name="certification" value="True">True
+  		<input type="radio" id="certification" name="certification" value="False">False<br>
+  		<input type="submit" value="Submit">
+	</form>
+</center>
+<center><form style="float:right;width: 40%">
+  		<label for="patientID">Clinician ID:</label><br>
+  		<input type="text" id="patientID" name="patientID"><br>
+  		<input type="submit" value="Delete Clinician">
+	</form>
+  </center>
+  <center><form id="form"> 
+  <input type="search" id="query" name="q" placeholder="Search...">
+  <button>Search</button>
+</form></center>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+    <TABLE style="margin: 0px auto;" BORDER="5"    WIDTH="90%"   CELLPADDING="4" CELLSPACING="3">
+   <TR>
+      </TH>
+   </TR>
+   <TR>
+      <TH>Clinician ID</TH>
+      <TH>Clinic ID</TH>
+      <TH>Clinician Name</TH>
+      <TH>Date of Birth</TH>
+      <TH>Sex</TH>
+      <TH>Email</TH>
+      <TH>Phone Number</TH>
+      <TH>Certified</TH>
+   </TR>
+   {{#each clinicians}}
+   <TR ALIGN="CENTER">
+      <TD>{{clinicianID}}</TD>
+      <TD>{{clinicID}}</TD>
+      <TD>{{name}}</TD>
+      <TD>{{dob}}</TD>
+      <TD>{{sex}}</TD>
+      <TD>{{email}}</TD>
+      <TD>{{phone}}</TD>
+      <TD>{{certification}}</TD>
+      <td><button onclick="deletePerson({{id}})">Delete</button></td>
+      <td><a href="/people/{{id}}">Update</a></td>
+   </TR>
+   {{/each}}
+</TABLE> 
+</body>
+{{!-- <h3>Add new people:</h3>
+<form id="addperson" action="/people" method="post">
+    First name: <input type="text" name="fname"><br>
+    Last name: <input type="text" name="lname"><br>
+    Homeworld: <select name="homeworld"> 
+        {{#each planets}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    Age: <input type="number" name="age"><br>
+    <input type="submit" value="Submit">
+ </form>
+<br/> --}}
+
+{{!-- <form id='filter_people' action='' method=''>
+<!--- this form does not submit directly, the button handles all the interaction with backend -->
+    <label> Filter by homeworld </label>
+    <select id='homeworld_filter' name="homeworld"> 
+        {{#each planets}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    <input type="button" value="Filter" onclick="filterPeopleByHomeworld()">
+</form> --}}
+
+{{!-- <form id='search_people' action='' method=''>
+<!--- this form does not submit directly, the button handles all the interaction with backend -->
+    <label> Search people for first name starting with:</label>
+    <input id='first_name_search_string' type='text' name='first_name_search_string' value=''>
+    <input type="button" value="Search" onclick="searchPeopleByFirstName()">
+</form> --}}
+{{!-- <table>
+    <thead> 
+        <th>Maufacturer ID</th> 
+        <th>Pfizer</th>
+        <th>Moderna</th>  
+        <th>Johnson</th>
+    </thead> 
+    <tbody>
+        {{#each vaccine}} 
+        <tr> 
+            <td>{{manufactID}}</td> 
+            <td>{{pfizer}}</td> 
+            <td>{{moderna}}</td>
+            <td>{{johnson}}</td>
+            {{!-- {{!-- <td><button onclick="deletePerson({{id}})">Delete</button></td> --}}
+            {{!-- <td><a href="/people/{{id}}">Update</a></td> --}}
+        {{!-- </tr> 
+        {{/each}} 
+    </tbody> 
+</table>  --}} 
+{{!-- <table>
+    <thead> 
+        <th>First Name</th> 
+        <th>Last Name</th> 
+        <th>Age</th>  
+    </thead> 
+    <tbody>
+        {{#each people}} 
+        <tr> 
+            <td>{{fname}}</td> 
+            <td>{{lname}}</td> 
+            <td>{{age}}</td>
+            <td><button onclick="deletePerson({{id}})">Delete</button></td>
+            <td><a href="/people/{{id}}">Update</a></td>
+        </tr> 
+        {{/each}} 
+    </tbody> 
+</table>  --}}
+</html>

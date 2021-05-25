@@ -1,0 +1,149 @@
+<html>
+<head>
+   <meta charset="UTF-8">
+   <title>COVID-19 Vaccine Tracker</title>
+</head>
+<body>
+  <center>
+<a href="index.html">Home</a>
+<a href='/vaccines'>Vaccines</a>
+<a href="/appointments">Appointments</a>
+<a href="/patients">Patients</a>
+<a href="/clinics">Clinics</a>
+<a href="/clinicians">Clinicians</a>
+<a href="/manufacturers">Manufacturers</a></body><h1>Clinic Tracker</h1></center>
+<center>
+    <form id="clinics" action="/clinics" method="post" style="margin:10;float:left;width: 30%">
+      <h3>ADD CLINIC</h3>
+      
+      <label for="clinicName">Clinic Name:</label>
+      <input type="text" id="clinicName" name="clinicName" required><br>
+      <label for="address">Address:</label>
+      <input style="width: 200px" type="text" id="address" name="address" placeholder="123 Main St., New York, NY 98101"required><br>
+      <label for="parking">Parking:</label>
+      <input type="radio" id="parking" name="parking" value="True">True
+      <input type="radio" id="parking" name="parking" value="False">False<br>
+      <label for="publicTransport">Public Transport:</label>
+      <input type="radio" id="publicTransport" name="publicTransport" value="True">True
+      <input type="radio" id="publicTransport" name="publicTransport" value="False">False<br>
+      <label for="phone">Phone:</label>
+      <input style="width:85px" type="phone" id="phone" name="phone" placeholder="123-456-7890"><br>
+      <input type="submit" value="Submit">
+  </form></center>
+  <center>
+<form style="float:right;width: 40%">
+      <label for="clinicID">Clinic ID:</label>
+      <input type="text" id="clinicID" name="clinicID"><br>
+      <input type="submit" value="Delete">
+  </form>
+  </center>
+    </form></center>
+  <center><form id="form"> 
+  <input type="search" id="query" name="q" placeholder="Search...">
+  <button>Search</button>
+</form></center>
+<br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <TABLE style="margin: 0px auto;" BORDER="5"    WIDTH="90%"   CELLPADDING="4" CELLSPACING="3">
+   <TR>
+      </TH>
+   </TR>
+   <TR>
+      <TH>Clinic ID</TH>
+      <TH>Clinic Name</TH>
+      <TH>Address</TH>
+      <TH>Parking</TH>
+      <TH>Public Transport</TH>
+      <TH>Phone Number</TH>
+   </TR>
+   {{#each clinics}}
+   <TR ALIGN="CENTER">
+      <TD>{{clinicID}}</TD>
+      <TD>{{clinicName}}</TD>
+      <TD>{{address}}</TD>
+      <TD>{{parking}}</TD>
+      <TD>{{publicTransport}}</TD>
+      <TD>{{phone}}</TD>
+      <td><button onclick="deletePerson({{id}})">Delete</button></td>
+      <td><a href="/people/{{id}}">Update</a></td>
+   </TR>
+   {{/each}}
+</TABLE> 
+</body>
+{{!-- <h3>Add new people:</h3>
+<form id="addperson" action="/people" method="post">
+    First name: <input type="text" name="fname"><br>
+    Last name: <input type="text" name="lname"><br>
+    Homeworld: <select name="homeworld"> 
+        {{#each planets}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    Age: <input type="number" name="age"><br>
+    <input type="submit" value="Submit">
+ </form>
+<br/> --}}
+
+{{!-- <form id='filter_people' action='' method=''>
+<!--- this form does not submit directly, the button handles all the interaction with backend -->
+    <label> Filter by homeworld </label>
+    <select id='homeworld_filter' name="homeworld"> 
+        {{#each planets}}
+        <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    <input type="button" value="Filter" onclick="filterPeopleByHomeworld()">
+</form> --}}
+
+{{!-- <form id='search_people' action='' method=''>
+<!--- this form does not submit directly, the button handles all the interaction with backend -->
+    <label> Search people for first name starting with:</label>
+    <input id='first_name_search_string' type='text' name='first_name_search_string' value=''>
+    <input type="button" value="Search" onclick="searchPeopleByFirstName()">
+</form> --}}
+{{!-- <table>
+    <thead> 
+        <th>Maufacturer ID</th> 
+        <th>Pfizer</th>
+        <th>Moderna</th>  
+        <th>Johnson</th>
+    </thead> 
+    <tbody>
+        {{#each vaccine}} 
+        <tr> 
+            <td>{{manufactID}}</td> 
+            <td>{{pfizer}}</td> 
+            <td>{{moderna}}</td>
+            <td>{{johnson}}</td>
+            {{!-- {{!-- <td><button onclick="deletePerson({{id}})">Delete</button></td> --}}
+            {{!-- <td><a href="/people/{{id}}">Update</a></td> --}}
+        {{!-- </tr> 
+        {{/each}} 
+    </tbody> 
+</table>  --}} 
+{{!-- <table>
+    <thead> 
+        <th>First Name</th> 
+        <th>Last Name</th> 
+        <th>Age</th>  
+    </thead> 
+    <tbody>
+        {{#each people}} 
+        <tr> 
+            <td>{{fname}}</td> 
+            <td>{{lname}}</td> 
+            <td>{{age}}</td>
+            <td><button onclick="deletePerson({{id}})">Delete</button></td>
+            <td><a href="/people/{{id}}">Update</a></td>
+        </tr> 
+        {{/each}} 
+    </tbody> 
+</table>  --}}
+</html>
