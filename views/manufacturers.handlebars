@@ -5,7 +5,7 @@
 </head>
 <body>
   <center>
-<a href="index.html">Home</a>
+<a href="./index.html">Home</a>
 <a href='/vaccines'>Vaccines</a>
 <a href="/appointments">Appointments</a>
 <a href="/patients">Patients</a>
@@ -20,12 +20,6 @@
       <input type="submit" value="Submit">
   </form>
   </center>
-  <center><form style="float:right;width: 40%">
-   <label for="patID">Manufacturer ID:</label>
-     <input type="text" id="manufactID" name="manufactID"><br>
-     <input type="submit" value="Delete">
- </form>
- </center>
  <center><form id="form"> 
    <input type="search" id="query" name="q" placeholder="Search...">
    <button>Search</button>
@@ -73,22 +67,4 @@
     <input id='first_name_search_string' type='text' name='first_name_search_string' value=''>
     <input type="button" value="Search" onclick="searchPeopleByFirstName()">
 </form> --}}
-{{!-- <table>
-    <thead> 
-        <th>First Name</th> 
-        <th>Last Name</th> 
-        <th>Age</th>  
-    </thead> 
-    <tbody>
-        {{#each people}} 
-        <tr> 
-            <td>{{fname}}</td> 
-            <td>{{lname}}</td> 
-            <td>{{age}}</td>
-            <td><button onclick="deletePerson({{id}})">Delete</button></td>
-            <td><a href="/people/{{id}}">Update</a></td>
-        </tr> 
-        {{/each}} 
-    </tbody> 
-</table>  --}}
 </html>

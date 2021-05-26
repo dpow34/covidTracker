@@ -65,25 +65,25 @@ module.exports = function(){
     //     });
     // }
 
-    // function getPerson(res, mysql, context, id, complete){
-    //     var sql = "SELECT character_id as id, fname, lname, homeworld, age FROM bsg_people WHERE character_id = ?";
-    //     var inserts = [id];
-    //     mysql.pool.query(sql, inserts, function(error, results, fields){
-    //         if(error){
-    //             res.write(JSON.stringify(error));
-    //             res.end();
-    //         }
-    //         context.person = results[0];
-    //         complete();
-    //     });
-    // }
+    function getAppointment(res, mysql, context, id, complete){
+        var sql = "SELECT appointmentID as id, clinicID, patientID, vaccinePref, appointment FROM appointments WHERE appointmentID = ?";
+        var inserts = [id];
+        mysql.pool.query(sql, inserts, function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.appointment = results[0];
+            complete();
+        });
+    }
 
     /*Display all people. Requires web based javascript to delete users with AJAX*/
 
     router.get('/', function(req, res){
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["deleteFunctions.js"];
+        context.jsscripts = ["deleteFunctions.js", "selectorFunctions.js", "updateFunctions.js"];
         var mysql = req.app.get('mysql');
         getAppts(res, mysql, context, complete);
         getClinicIDs(res, mysql, context, complete);
@@ -132,21 +132,22 @@ module.exports = function(){
 
     /* Display one person for the specific purpose of updating people */
 
-    // router.get('/:id', function(req, res){
-    //     callbackCount = 0;
-    //     var context = {};
-    //     context.jsscripts = ["selectedplanet.js", "updateperson.js"];
-    //     var mysql = req.app.get('mysql');
-    //     getPerson(res, mysql, context, req.params.id, complete);
-    //     getPlanets(res, mysql, context, complete);
-    //     function complete(){
-    //         callbackCount++;
-    //         if(callbackCount >= 2){
-    //             res.render('update-person', context);
-    //         }
+    router.get('/:id', function(req, res){
+        callbackCount = 0;
+        var context = {};
+        context.jsscripts = ["selectorFunctions.js", "updateFunctions.js"];
+        var mysql = req.app.get('mysql');
+        getAppointment(res, mysql, context, req.params.id, complete);
+        getClinicIDs(res, mysql, context, complete);
+        getPatientIDs(res, mysql, context, complete);
+        function complete(){
+            callbackCount++;
+            if(callbackCount >= 3){
+                res.render('update-appointments', context);
+            }
 
-    //     }
-    // });
+        }
+    });
 
     /* Adds a person, redirects to the people page after adding */
 
@@ -167,23 +168,21 @@ module.exports = function(){
 
     /* The URI that update data is sent to in order to update a person */
 
-    // router.put('/:id', function(req, res){
-    //     var mysql = req.app.get('mysql');
-    //     console.log(req.body)
-    //     console.log(req.params.id)
-    //     var sql = "UPDATE bsg_people SET fname=?, lname=?, homeworld=?, age=? WHERE character_id=?";
-    //     var inserts = [req.body.fname, req.body.lname, req.body.homeworld, req.body.age, req.params.id];
-    //     sql = mysql.pool.query(sql,inserts,function(error, results, fields){
-    //         if(error){
-    //             console.log(error)
-    //             res.write(JSON.stringify(error));
-    //             res.end();
-    //         }else{
-    //             res.status(200);
-    //             res.end();
-    //         }
-    //     });
-    // });
+    router.put('/:id', function(req, res){
+        var mysql = req.app.get('mysql');
+        var sql = "UPDATE appointments SET clinicID=?, patientID=?, vaccinePref=?, appointment=? WHERE appointmentID=?";
+        var inserts = [req.body.clinicID, req.body.patientID, req.body.vacType, req.body.appointment, req.params.id];
+        sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+            if(error){
+                console.log(error)
+                res.write(JSON.stringify(error));
+                res.end();
+            }else{
+                res.status(200);
+                res.end();
+            }
+        });
+    });
 
     /* Route to delete a person, simply returns a 202 upon success. Ajax will handle this. */
 

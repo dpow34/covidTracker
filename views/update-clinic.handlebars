@@ -1,0 +1,18 @@
+<html>
+<h1>Update Clinic ID {{clinic.id}}</h1>
+<form id="update-clinic" action="/clinics" method="post">
+     <label for="clinicName">Clinic Name:</label>
+      <input type="text" id="clinicName" name="clinicName" value="{{clinic.clinicName}}" required><br>
+      <label for="address">Address:</label>
+      <input style="width: 200px" type="text" id="address" name="address" value="{{clinic.address}}"required><br>
+      <label for="parking">Parking:</label>
+      <input type="radio" id="parking" name="parking" value="True">True
+      <input type="radio" id="parking" name="parking" value="False">False<br>
+      <label for="publicTransport">Public Transport:</label>
+      <input type="radio" id="publicTransport" name="publicTransport" value="True">True
+      <input type="radio" id="publicTransport" name="publicTransport" value="False">False<br>
+      <label for="phone">Phone:</label>
+      <input style="width:85px" type="phone" id="phone" name="phone" value="{{clinic.phone}}"><br></form>
+<button onclick="updateClinic({{clinic.id}})">Update</button>
+{{!-- <script defer>selectVaccine({{vaccine.pfizer}}, {{vaccine.moderna}}, {{vaccine.johnson}});</script> --}}
+</html>

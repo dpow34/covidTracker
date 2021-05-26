@@ -5,7 +5,7 @@
 </head>
 <body>
   <center>
-<a href="index.html">Home</a>
+<a href="./index.html">Home</a>
 <a href='/vaccines'>Vaccines</a>
 <a href="/appointments">Appointments</a>
 <a href="/patients">Patients</a>
@@ -29,32 +29,13 @@
       <input type="submit" value="Submit">
   </form>
   </center>
-  <center>
-<form style="float:right;width: 40%">
-      <label for="vaccineID">Vaccine ID:</label>
-      <input type="text" id="vaccineID" name="vaccineID"><br>
-      <input type="submit" value="Delete">
-  </form>
-  </center>
+  
   <br>
   </form></center>
   <center><form id="form"> 
   <input type="search" id="query" name="q" placeholder="Search...">
   <button>Search</button>
-</form></center>  
-{{!-- <h3>Add new people:</h3>
-<form id="addperson" action="/people" method="post">
-    First name: <input type="text" name="fname"><br>
-    Last name: <input type="text" name="lname"><br>
-    Homeworld: <select name="homeworld"> 
-        {{#each planets}}
-        <option value="{{id}}">{{name}}</option>
-        {{/each}}
-    </select><br>
-    Age: <input type="number" name="age"><br>
-    <input type="submit" value="Submit">
- </form>
-<br/> --}}
+</form></center>
 
 {{!-- <form id='filter_people' action='' method=''>
 <!--- this form does not submit directly, the button handles all the interaction with backend -->
@@ -99,7 +80,7 @@
             <td>{{moderna}}</td>
             <td>{{johnson}}</td>
             <td><button onclick="deleteVaccine({{vaccineID}})">Delete</button></td>
-            <td><a href="/people/{{id}}">Update</a></td>
+            <td><a href="/vaccines/{{vaccineID}}">Update</a></td>
         </tr> 
         {{/each}} 
     </tbody> 

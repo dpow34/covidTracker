@@ -5,7 +5,7 @@
 </head>
 <body>
   <center>
-<a href="index.html">Home</a>
+<a href="./index.html">Home</a>
 <a href='/vaccines'>Vaccines</a>
 <a href="/appointments">Appointments</a>
 <a href="/patients">Patients</a>
@@ -22,7 +22,7 @@
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" required><br>
       <label for="dob">Date of Birth:</label>
-      <input type="date" id="dob" name="dob" required><br>
+      <input type="text" id="dob" name="dob" placeholder="MM-DD-YYYY" required><br>
       <label for="sex">Sex:</label>
       <input type="radio" id="sex" name="sex" value="Male" required>Male
       <input type="radio" id="sex" name="sex" value="Female">Female<br>
@@ -32,12 +32,6 @@
       <input style="width:85px" type="phone" id="phone" name="phone" placeholder="123-456-7890"><br>
       <input type="submit" value="Submit">
   </form></center>
-  <center><form style="float:right;width: 40%">
-    <label for="patID">Patient ID:</label>
-      <input type="text" id="vacID" name="vacID"><br>
-      <input type="submit" value="Delete">
-  </form>
-  </center>
   </form></center>
   <center><form id="form"> 
   <input type="search" id="query" name="q" placeholder="Search...">
@@ -78,24 +72,11 @@
       <TD>{{email}}</TD>
       <TD>{{phone}}</TD>
       <td><button onclick="deletePatient({{patientID}})">Delete</button></td>
-      <td><a href="/people/{{id}}">Update</a></td>
+      <td><a href="/patients/{{patientID}}">Update</a></td>
    </TR>
    {{/each}}
 </TABLE> 
 </body>  
-{{!-- <h3>Add new people:</h3>
-<form id="addperson" action="/people" method="post">
-    First name: <input type="text" name="fname"><br>
-    Last name: <input type="text" name="lname"><br>
-    Homeworld: <select name="homeworld"> 
-        {{#each planets}}
-        <option value="{{id}}">{{name}}</option>
-        {{/each}}
-    </select><br>
-    Age: <input type="number" name="age"><br>
-    <input type="submit" value="Submit">
- </form>
-<br/> --}}
 
 {{!-- <form id='filter_people' action='' method=''>
 <!--- this form does not submit directly, the button handles all the interaction with backend -->
@@ -114,22 +95,4 @@
     <input id='first_name_search_string' type='text' name='first_name_search_string' value=''>
     <input type="button" value="Search" onclick="searchPeopleByFirstName()">
 </form> --}}
-{{!-- <table>
-    <thead> 
-        <th>First Name</th> 
-        <th>Last Name</th> 
-        <th>Age</th>  
-    </thead> 
-    <tbody>
-        {{#each people}} 
-        <tr> 
-            <td>{{fname}}</td> 
-            <td>{{lname}}</td> 
-            <td>{{age}}</td>
-            <td><button onclick="deletePerson({{id}})">Delete</button></td>
-            <td><a href="/people/{{id}}">Update</a></td>
-        </tr> 
-        {{/each}} 
-    </tbody> 
-</table>  --}}
 </html>
