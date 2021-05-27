@@ -24,5 +24,13 @@
 </form>
 <button onclick="updateClinician({{clinician.id}})">Update</button>
 <script defer>selectClinicID({{clinician.clinicID}});</script>
-{{!-- <script defer>selectVaccine({{vaccine.pfizer}}, {{vaccine.moderna}}, {{vaccine.johnson}});</script> --}}
+<script>
+      var Male = 'Male';
+      var Female = 'Female';
+      var True = 'True';
+      var False = 'False';
+</script>
+<script defer>selectSex({{clinician.sex}});</script>
+<script defer>selectCert({{clinician.certification}});</script>
+
 </html>

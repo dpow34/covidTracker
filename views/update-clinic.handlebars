@@ -4,7 +4,7 @@
      <label for="clinicName">Clinic Name:</label>
       <input type="text" id="clinicName" name="clinicName" value="{{clinic.clinicName}}" required><br>
       <label for="address">Address:</label>
-      <input style="width: 200px" type="text" id="address" name="address" value="{{clinic.address}}"required><br>
+      <input style="width: 225px" type="text" id="address" name="address" value="{{clinic.address}}"required><br>
       <label for="parking">Parking:</label>
       <input type="radio" id="parking" name="parking" value="True">True
       <input type="radio" id="parking" name="parking" value="False">False<br>
@@ -14,5 +14,10 @@
       <label for="phone">Phone:</label>
       <input style="width:85px" type="phone" id="phone" name="phone" value="{{clinic.phone}}"><br></form>
 <button onclick="updateClinic({{clinic.id}})">Update</button>
-{{!-- <script defer>selectVaccine({{vaccine.pfizer}}, {{vaccine.moderna}}, {{vaccine.johnson}});</script> --}}
+<script>
+      var True = 'True';
+      var False = 'False';
+</script>
+<script defer>selectParking({{clinic.parking}});</script>
+<script defer>selectPubTrans({{clinic.publicTransport}});</script>
 </html>

@@ -20,5 +20,9 @@
 </form>
 <button onclick="updatePatient({{patient.id}})">Update</button>
 <script defer>selectVaccineID({{patient.vaccineID}});</script>
-{{!-- <script defer>selectVaccine({{vaccine.pfizer}}, {{vaccine.moderna}}, {{vaccine.johnson}});</script> --}}
+<script>
+      var Male = 'Male';
+      var Female = 'Female';
+</script>
+<script defer>selectSex({{patient.sex}});</script>
 </html>

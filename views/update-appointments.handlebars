@@ -61,6 +61,29 @@
 <button onclick="updateAppointment({{appointment.id}})">Update</button>
 <script defer>selectClinicID({{appointment.clinicID}});</script>
 <script defer>selectPatientID({{appointment.patientID}});</script>
-{{!-- <script defer>selectAppointment({{appointment.appointment}});</script>  --}}
-{{!-- <script defer>selectVaccine({{vaccine.pfizer}}, {{vaccine.moderna}}, {{vaccine.johnson}});</script> --}}
+
+<script>
+function setSelectedIndex(s, v) {
+
+    for ( var i = 0; i < s.options.length; i++ ) {
+
+        if ( s.options[i].value == v ) {
+
+            s.options[i].selected = true;
+
+            return;
+
+        }
+
+    }
+
+}
+var appointment = "{{appointment.appointment}}";
+
+setSelectedIndex(document.getElementById('appointment'), appointment);
+  var Pfizer = 'Pfizer';
+  var Moderna = 'Moderna';
+  var Johnson = 'Johnson';
+</script>
+<script defer>selectVaccine2({{appointment.vaccinePref}});</script>
 </html>

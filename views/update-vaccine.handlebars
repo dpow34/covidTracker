@@ -13,7 +13,11 @@
       <label for="vacType">Johnson & Johnson</label>
       <input type="radio" id="johnson" name="vacType" value="Johnson"><br>
 </form>
+<script> 
+    var False = False; 
+    var True = True;  
+</script>
 <button onclick="updateVaccine({{vaccine.id}})">Update</button>
 <script defer>selectManufactID({{vaccine.manufactID}});</script>
-{{!-- <script defer>selectVaccine({{vaccine.pfizer}}, {{vaccine.moderna}}, {{vaccine.johnson}});</script> --}}
+<script defer>selectVaccine({{vaccine.pfizer}}, {{vaccine.moderna}}, {{vaccine.johnson}});</script>
 </html>
