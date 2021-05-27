@@ -5,7 +5,7 @@
 </head>
 <body>
   <center>
-<a href="./index.html">Home</a>
+<a href="/index.html">Home</a>
 <a href='/vaccines'>Vaccines</a>
 <a href="/appointments">Appointments</a>
 <a href="/patients">Patients</a>
@@ -32,28 +32,10 @@
   
   <br>
   </form></center>
-  <center><form id="form"> 
-  <input type="search" id="query" name="q" placeholder="Search...">
-  <button>Search</button>
+  <center><form id="search-vaccines"> 
+  <input type="text" id="vaccineID_search" name="vaccineID_search" placeholder="Search Vaccine ID">
+  <input type="button" value="Search" onclick="searchVaccineID()">
 </form></center>
-
-{{!-- <form id='filter_people' action='' method=''>
-<!--- this form does not submit directly, the button handles all the interaction with backend -->
-    <label> Filter by homeworld </label>
-    <select id='homeworld_filter' name="homeworld"> 
-        {{#each planets}}
-        <option value="{{id}}">{{name}}</option>
-        {{/each}}
-    </select><br>
-    <input type="button" value="Filter" onclick="filterPeopleByHomeworld()">
-</form> --}}
-
-{{!-- <form id='search_people' action='' method=''>
-<!--- this form does not submit directly, the button handles all the interaction with backend -->
-    <label> Search people for first name starting with:</label>
-    <input id='first_name_search_string' type='text' name='first_name_search_string' value=''>
-    <input type="button" value="Search" onclick="searchPeopleByFirstName()">
-</form> --}}
 <br>
   <br>
   <br>

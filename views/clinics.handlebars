@@ -5,13 +5,14 @@
 </head>
 <body>
   <center>
-<a href="./index.html">Home</a>
+<a href="/index.html">Home</a>
 <a href='/vaccines'>Vaccines</a>
 <a href="/appointments">Appointments</a>
 <a href="/patients">Patients</a>
 <a href="/clinics">Clinics</a>
 <a href="/clinicians">Clinicians</a>
-<a href="/manufacturers">Manufacturers</a></body><h1>Clinic Tracker</h1></center>
+<a href="/manufacturers">Manufacturers</a></body></center>
+<center><h1>Clinics</h1></center>
 <center>
     <form id="clinics" action="/clinics" method="post" style="margin:10;float:left;width: 30%">
       
@@ -31,8 +32,8 @@
   </form></center>
     </form></center>
   <center><form id="form"> 
-  <input type="search" id="query" name="q" placeholder="Search...">
-  <button>Search</button>
+  <input type="search" id="clinic_search" name="clinic_search" placeholder="Search Clinic Name">
+  <input type="button" value="Search" onclick="searchClinics()">
 </form></center>
 <br>
   <br>
@@ -69,22 +70,4 @@
    {{/each}}
 </TABLE> 
 </body>
-
-{{!-- <form id='filter_people' action='' method=''>
-<!--- this form does not submit directly, the button handles all the interaction with backend -->
-    <label> Filter by homeworld </label>
-    <select id='homeworld_filter' name="homeworld"> 
-        {{#each planets}}
-        <option value="{{id}}">{{name}}</option>
-        {{/each}}
-    </select><br>
-    <input type="button" value="Filter" onclick="filterPeopleByHomeworld()">
-</form> --}}
-
-{{!-- <form id='search_people' action='' method=''>
-<!--- this form does not submit directly, the button handles all the interaction with backend -->
-    <label> Search people for first name starting with:</label>
-    <input id='first_name_search_string' type='text' name='first_name_search_string' value=''>
-    <input type="button" value="Search" onclick="searchPeopleByFirstName()">
-</form> --}}
 </html>
