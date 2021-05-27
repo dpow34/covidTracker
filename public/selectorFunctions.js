@@ -1,13 +1,61 @@
 function selectVaccine(pfizer, moderna, johnson){
-    console.log(1);
     if(pfizer == True){
-        document.querySelector('#pfizer').checked = true;
+        $(':input:radio:eq(0)').attr('checked', 'checked');
     }
     if(moderna == True){
-        document.querySelector('#moderna').checked = true;
+        $(':input:radio:eq(1)').attr('checked', 'checked');
     }
     if(johnson == True){
-        document.querySelector('#johnson').checked = true;
+        $(':input:radio:eq(2)').attr('checked', 'checked');
+    }
+}
+
+function selectVaccine2(vaccine){
+    if(vaccine == 'Pfizer'){
+        $(':input:radio:eq(0)').attr('checked', 'checked');
+    }
+    if(vaccine == 'Moderna'){
+        $(':input:radio:eq(1)').attr('checked', 'checked');
+    }
+    if(vaccine == 'Johnson'){
+        $(':input:radio:eq(2)').attr('checked', 'checked');
+    }
+}
+
+
+function selectSex(sex){
+    if(sex == 'Male'){
+        $(':input:radio:eq(0)').attr('checked', 'checked');
+    }
+    if(sex == 'Female'){
+        $(':input:radio:eq(1)').attr('checked', 'checked');
+    }
+}
+
+function selectParking(parking){
+    if(parking == 'True'){
+        $(':input:radio:eq(0)').attr('checked', 'checked');
+    }
+    if(parking == 'False'){
+        $(':input:radio:eq(1)').attr('checked', 'checked');
+    }
+}
+
+function selectPubTrans(trans){
+    if(trans == 'True'){
+        $(':input:radio:eq(2)').attr('checked', 'checked');
+    }
+    if(trans == 'False'){
+        $(':input:radio:eq(3)').attr('checked', 'checked');
+    }
+}
+
+function selectCert(cert){
+    if(cert == 'True'){
+        $(':input:radio:eq(2)').attr('checked', 'checked');
+    }
+    if(cert == 'False'){
+        $(':input:radio:eq(3)').attr('checked', 'checked');
     }
 }
 
@@ -17,7 +65,6 @@ function selectManufactID(id){
 }
 
 function selectClinicID(id){
-    console.log(id);
     $("#clinic").val(id);
 }
 
