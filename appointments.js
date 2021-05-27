@@ -2,6 +2,7 @@ module.exports = function(){
     var express = require('express');
     var router = express.Router();
 
+    /* Get patientIDs from patients */
     function getPatientIDs(res, mysql, context, complete){
         mysql.pool.query("SELECT patientID as id FROM patients", function(error, results, fields){
             if(error){
@@ -13,6 +14,7 @@ module.exports = function(){
         });
     }
 
+    /* Get clinicIDs from clinics */
     function getClinicIDs(res, mysql, context, complete){
         mysql.pool.query("SELECT clinicID as id FROM clinics", function(error, results, fields){
             if(error){
@@ -24,6 +26,7 @@ module.exports = function(){
         });
     }
 
+    /* Get appointments and their details */
     function getAppts(res, mysql, context, complete){
         mysql.pool.query("SELECT appointmentID, clinicID, patientID, vaccinePref, appointment FROM appointments", function(error, results, fields){
             if(error){
@@ -35,36 +38,21 @@ module.exports = function(){
         });
     }
 
-    // function getPeoplebyHomeworld(req, res, mysql, context, complete){
-    //   var query = "SELECT bsg_people.character_id as id, fname, lname, bsg_planets.name AS homeworld, age FROM bsg_people INNER JOIN bsg_planets ON homeworld = bsg_planets.planet_id WHERE bsg_people.homeworld = ?";
-    //   console.log(req.params)
-    //   var inserts = [req.params.homeworld]
-    //   mysql.pool.query(query, inserts, function(error, results, fields){
-    //         if(error){
-    //             res.write(JSON.stringify(error));
-    //             res.end();
-    //         }
-    //         context.people = results;
-    //         complete();
-    //     });
-    // }
+    /* Find appointment that matches a given string in the req */
+    function apptSearch(req, res, mysql, context, complete) {
+      //sanitize the input as well as include the % character
+       var query = "SELECT appointmentID, clinicID, patientID, vaccinePref, appointment FROM appointments WHERE appointmentID = " + mysql.pool.escape(req.params.s + '%');
+      mysql.pool.query(query, function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.appointments = results;
+            complete();
+        });
+    }
 
-    /* Find people whose fname starts with a given string in the req */
-    // function getPeopleWithNameLike(req, res, mysql, context, complete) {
-    //   //sanitize the input as well as include the % character
-    //    var query = "SELECT bsg_people.character_id as id, fname, lname, bsg_planets.name AS homeworld, age FROM bsg_people INNER JOIN bsg_planets ON homeworld = bsg_planets.planet_id WHERE bsg_people.fname LIKE " + mysql.pool.escape(req.params.s + '%');
-    //   console.log(query)
-
-    //   mysql.pool.query(query, function(error, results, fields){
-    //         if(error){
-    //             res.write(JSON.stringify(error));
-    //             res.end();
-    //         }
-    //         context.people = results;
-    //         complete();
-    //     });
-    // }
-
+    /* Get specific appointment for updating */
     function getAppointment(res, mysql, context, id, complete){
         var sql = "SELECT appointmentID as id, clinicID, patientID, vaccinePref, appointment FROM appointments WHERE appointmentID = ?";
         var inserts = [id];
@@ -78,12 +66,11 @@ module.exports = function(){
         });
     }
 
-    /*Display all people. Requires web based javascript to delete users with AJAX*/
-
+    /*Display all appointments. Requires web based javascript to delete users with AJAX*/
     router.get('/', function(req, res){
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["deleteFunctions.js", "selectorFunctions.js", "updateFunctions.js"];
+        context.jsscripts = ["selectorFunctions.js", "updateFunctions.js", "deleteFunctions.js", "searchFunctions.js"];
         var mysql = req.app.get('mysql');
         getAppts(res, mysql, context, complete);
         getClinicIDs(res, mysql, context, complete);
@@ -97,45 +84,26 @@ module.exports = function(){
         }
     });
 
-    /*Display all people from a given homeworld. Requires web based javascript to delete users with AJAX*/
-    // router.get('/filter/:homeworld', function(req, res){
-    //     var callbackCount = 0;
-    //     var context = {};
-    //     context.jsscripts = ["deleteperson.js","filterpeople.js","searchpeople.js"];
-    //     var mysql = req.app.get('mysql');
-    //     getPeoplebyHomeworld(req,res, mysql, context, complete);
-    //     getPlanets(res, mysql, context, complete);
-    //     function complete(){
-    //         callbackCount++;
-    //         if(callbackCount >= 2){
-    //             res.render('appointments', context);
-    //         }
+    /*Display appointments that matches a given string. Requires web based javascript to delete users with AJAX */
+    router.get('/search/:s', function(req, res){
+        var callbackCount = 0;
+        var context = {};
+        context.jsscripts = ["selectorFunctions.js", "updateFunctions.js", "deleteFunctions.js", "searchFunctions.js"];
+        var mysql = req.app.get('mysql');
+        apptSearch(req, res, mysql, context, complete);
+        function complete(){
+            callbackCount++;
+            if(callbackCount >= 1){
+                res.render('appointments', context);
+            }
+        }
+    });
 
-    //     }
-    // });
-
-    /*Display all people whose name starts with a given string. Requires web based javascript to delete users with AJAX */
-    // router.get('/search/:s', function(req, res){
-    //     var callbackCount = 0;
-    //     var context = {};
-    //     context.jsscripts = ["deleteperson.js","filterpeople.js","searchpeople.js"];
-    //     var mysql = req.app.get('mysql');
-    //     getPeopleWithNameLike(req, res, mysql, context, complete);
-    //     getPlanets(res, mysql, context, complete);
-    //     function complete(){
-    //         callbackCount++;
-    //         if(callbackCount >= 2){
-    //             res.render('appointments', context);
-    //         }
-    //     }
-    // });
-
-    /* Display one person for the specific purpose of updating people */
-
+    /* Display one appointment for the specific purpose of updating appointments */
     router.get('/:id', function(req, res){
         callbackCount = 0;
         var context = {};
-        context.jsscripts = ["selectorFunctions.js", "updateFunctions.js"];
+        context.jsscripts = ["selectorFunctions.js", "updateFunctions.js", "deleteFunctions.js", "searchFunctions.js"];
         var mysql = req.app.get('mysql');
         getAppointment(res, mysql, context, req.params.id, complete);
         getClinicIDs(res, mysql, context, complete);
@@ -149,8 +117,7 @@ module.exports = function(){
         }
     });
 
-    /* Adds a person, redirects to the people page after adding */
-
+    /* Adds a appointment, redirects to the appointments page after adding */
     router.post('/', function(req, res){
         var mysql = req.app.get('mysql');
         var sql = "INSERT INTO appointments (appointmentID, clinicID, patientID, vaccinePref, appointment) VALUES (?,?,?,?,?)";
@@ -166,8 +133,7 @@ module.exports = function(){
         });
     });
 
-    /* The URI that update data is sent to in order to update a person */
-
+    /* The URI that update data is sent to in order to update an appointment */
     router.put('/:id', function(req, res){
         var mysql = req.app.get('mysql');
         var sql = "UPDATE appointments SET clinicID=?, patientID=?, vaccinePref=?, appointment=? WHERE appointmentID=?";
@@ -184,8 +150,7 @@ module.exports = function(){
         });
     });
 
-    /* Route to delete a person, simply returns a 202 upon success. Ajax will handle this. */
-
+    /* Route to delete a appointment, simply returns a 202 upon success. Ajax will handle this. */
     router.delete('/:id', function(req, res){
         var mysql = req.app.get('mysql');
         var sql = "DELETE FROM appointments WHERE appointmentID = ?";

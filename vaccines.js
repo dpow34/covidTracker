@@ -2,6 +2,7 @@ module.exports = function(){
     var express = require('express');
     var router = express.Router();
 
+    /*Get all manufactIDs from manufacturers*/
     function getManufactIDs(res, mysql, context, complete){
         mysql.pool.query("SELECT manufactID as id FROM manufacturers", function(error, results, fields){
             if(error){
@@ -13,6 +14,7 @@ module.exports = function(){
         });
     }
 
+    /*Get all vaccines and their details*/
     function getVaccines(res, mysql, context, complete){
         mysql.pool.query("SELECT vaccineID, manufactID, pfizer, moderna, johnson FROM vaccines", function(error, results, fields){
             if(error){
@@ -24,23 +26,7 @@ module.exports = function(){
         });
     }
 
-
-    /* Find people whose fname starts with a given string in the req */
-    // function getPeopleWithNameLike(req, res, mysql, context, complete) {
-    //   //sanitize the input as well as include the % character
-    //    var query = "SELECT bsg_people.character_id as id, fname, lname, bsg_planets.name AS homeworld, age FROM bsg_people INNER JOIN bsg_planets ON homeworld = bsg_planets.planet_id WHERE bsg_people.fname LIKE " + mysql.pool.escape(req.params.s + '%');
-    //   console.log(query)
-
-    //   mysql.pool.query(query, function(error, results, fields){
-    //         if(error){
-    //             res.write(JSON.stringify(error));
-    //             res.end();
-    //         }
-    //         context.people = results;
-    //         complete();
-    //     });
-    // }
-
+    /*Get specific vaccine for updating*/
     function getVaccine(res, mysql, context, id, complete){
         var sql = "SELECT vaccineID as id, manufactID, pfizer, moderna, johnson FROM vaccines WHERE vaccineID = ?";
         var inserts = [id];
@@ -54,12 +40,25 @@ module.exports = function(){
         });
     }
 
-    /*Display all people. Requires web based javascript to delete users with AJAX*/
+    /* Find vaccineID that matches given req */
+    function vaccineSearch(req, res, mysql, context, complete) {
+        //sanitize the input as well as include the % character
+         var query = "SELECT vaccineID as vaccineID, manufactID, pfizer, moderna, johnson FROM vaccines WHERE vaccineID = " + mysql.pool.escape(req.params.s);
+        mysql.pool.query(query, function(error, results, fields){
+              if(error){
+                  res.write(JSON.stringify(error));
+                  res.end();
+              }
+              context.vaccines = results;
+              complete();
+          });
+      }
 
+    /*Display all vaccines. Requires web based javascript to delete users with AJAX*/
     router.get('/', function(req, res){
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["deleteFunctions.js", "selectorFunctions.js", "updateFunctions.js"];
+        context.jsscripts = ["deleteFunctions.js", "selectorFunctions.js", "updateFunctions.js", "searchFunctions.js"];
         var mysql = req.app.get('mysql');
         getVaccines(res, mysql, context, complete);
         getManufactIDs(res, mysql, context, complete);
@@ -72,45 +71,26 @@ module.exports = function(){
         }
     });
 
-    /*Display all people from a given homeworld. Requires web based javascript to delete users with AJAX*/
-    // router.get('/filter/:homeworld', function(req, res){
-    //     var callbackCount = 0;
-    //     var context = {};
-    //     context.jsscripts = ["deleteperson.js","filterpeople.js","searchpeople.js"];
-    //     var mysql = req.app.get('mysql');
-    //     getPeoplebyHomeworld(req,res, mysql, context, complete);
-    //     getPlanets(res, mysql, context, complete);
-    //     function complete(){
-    //         callbackCount++;
-    //         if(callbackCount >= 2){
-    //             res.render('vaccines', context);
-    //         }
+    /*Display all vaccines that match a given string. Requires web based javascript to delete users with AJAX */
+    router.get('/search/:s', function(req, res){
+        var callbackCount = 0;
+        var context = {};
+        context.jsscripts = ["deleteFunctions.js", "selectorFunctions.js", "updateFunctions.js", "searchFunctions.js"];
+        var mysql = req.app.get('mysql');
+        vaccineSearch(req, res, mysql, context, complete);
+        function complete(){
+            callbackCount++;
+            if(callbackCount >= 1){
+                res.render('vaccines', context);
+            }
+        }
+    });
 
-    //     }
-    // });
-
-    /*Display all people whose name starts with a given string. Requires web based javascript to delete users with AJAX */
-    // router.get('/search/:s', function(req, res){
-    //     var callbackCount = 0;
-    //     var context = {};
-    //     context.jsscripts = ["deleteperson.js","filterpeople.js","searchpeople.js"];
-    //     var mysql = req.app.get('mysql');
-    //     getPeopleWithNameLike(req, res, mysql, context, complete);
-    //     getPlanets(res, mysql, context, complete);
-    //     function complete(){
-    //         callbackCount++;
-    //         if(callbackCount >= 2){
-    //             res.render('vaccines', context);
-    //         }
-    //     }
-    // });
-
-    /* Display one person for the specific purpose of updating people */
-
+    /* Display one vaccine for the specific purpose of updating vaccines */
     router.get('/:id', function(req, res){
         callbackCount = 0;
         var context = {};
-        context.jsscripts = ["selectorFunctions.js", "updateFunctions.js"];
+        context.jsscripts = ["deleteFunctions.js", "selectorFunctions.js", "updateFunctions.js", "searchFunctions.js"];
         var mysql = req.app.get('mysql');
         getVaccine(res, mysql, context, req.params.id, complete);
         getManufactIDs(res, mysql, context, complete);
@@ -123,8 +103,7 @@ module.exports = function(){
         }
     });
 
-    /* Adds a person, redirects to the people page after adding */
-
+    /* Adds a vaccine, redirects to the vaccines page after adding */
     router.post('/', function(req, res){
         console.log(req.body);
         if(req.body.vacType == 'Pfizer'){
@@ -156,8 +135,7 @@ module.exports = function(){
         });
     });
 
-    /* The URI that update data is sent to in order to update a person */
-
+    /* The URI that update data is sent to in order to update a vaccine */
     router.put('/:id', function(req, res){
         var mysql = req.app.get('mysql');
         if(req.body.vacType == 'Pfizer'){
@@ -189,8 +167,7 @@ module.exports = function(){
         });
     });
 
-    /* Route to delete a person, simply returns a 202 upon success. Ajax will handle this. */
-
+    /* Route to delete a vaccine, simply returns a 202 upon success. Ajax will handle this. */
     router.delete('/:id', function(req, res){
         var mysql = req.app.get('mysql');
         var sql = "DELETE FROM vaccines WHERE vaccineID = ?";
