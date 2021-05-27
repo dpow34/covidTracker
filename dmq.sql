@@ -1,172 +1,133 @@
-﻿$ = variable
-
-
-Vaccines Page
+﻿Vaccines Page
 ---------------------————————-
 Show all Vaccines
-SELECT vaccineID, manufactID, pfizer, moderna, johnson
-FROM vaccines;
+SELECT vaccineID, manufactID, pfizer, moderna, johnson FROM vaccines;
 
+Get manufactIDs
+SELECT manufactID as id FROM manufacturers
 
 Add Vaccine
-INSERT INTO vaccines (manufactID, pfizer, moderna, johnson)
-VALUES ($manufactIDInput, $pfizerInput, $modernaInput, $johnsonInput);
+INSERT INTO vaccines (vaccineID, manufactID, pfizer, moderna, johnson) VALUES (?,?,?,?,?)
 
+Get Specific Vaccine
+SELECT vaccineID as id, manufactID, pfizer, moderna, johnson FROM vaccines WHERE vaccineID = ?
 
-Update Vaccines
-UPDATE vaccines
-SET 
-manufactID = $manufactIDInput,
-pfizer = $pfizerInput,
-moderna = $modernaInput,
-johnson = $johnsonInput
-WHERE 
-vaccineID = $vaccineID;
+Vaccine Search
+"SELECT vaccineID as vaccineID, manufactID, pfizer, moderna, johnson FROM vaccines WHERE vaccineID = " + mysql.pool.escape(req.params.s)
 
+Update Vaccine
+UPDATE vaccines SET manufactID=?, pfizer=?, moderna=?, johnson=? WHERE vaccineID=?
 
 Delete Vaccine
-DELETE FROM vaccines
-WHERE vaccineID = $vaccineID;
+DELETE FROM vaccines WHERE vaccineID = ?
 
 
 Clinics Page
 ---------------------————————-
 Show all Clinics
-SELECT clinicID, clinicName, address, parking, publicTransport, phone 
-FROM clinics;
+SELECT clinicID, clinicName, address, parking, publicTransport, phone FROM clinics
 
+Clinic Search
+"SELECT clinicID, clinicName, address, parking, publicTransport, phone FROM clinics WHERE clinicName LIKE  " + mysql.pool.escape(req.params.s + '%')
+
+Get Specific Clinic
+SELECT clinicID as id, clinicName, address, parking, publicTransport, phone FROM clinics WHERE clinicID = ?
 
 Add Clinic
-INSERT INTO clinics (clinicName, address, parking, publicTransport, phone)
-VALUES ($clinicNameInput, $addressInput, $parkingInput, $publicTransportInput, $phoneInput);
-
+INSERT INTO clinics (clinicID, clinicName, address, parking, publicTransport, phone) VALUES (?,?,?,?,?,?)
 
 Update Clinics
-UPDATE clinics
-SET 
-clinicName = $clinicNameInput,
-address = $addressInput,
-parking = $parkingInput,
-publicTransport = $publicTransportInput,
-phone = $phoneInput
-WHERE 
-clinicID = $clinicID;
-
+UPDATE clinics SET clinicName=?, address=?, parking=?, publicTransport=?, phone=? WHERE clinicID=?
 
 Delete Clinic
-DELETE FROM clinics
-WHERE clinicID = $clinicID;
+DELETE FROM clinics WHERE clinicID = ?
 
 
 Clinicians Page
 ---------------------————————-
-Show all Clinicians
-SELECT clinicianID, clinicID, name, dob,sex, email, phone, certification
-FROM clinicians;
+Get clinicIDs
+SELECT clinicID as id FROM clinics
 
+Show all Clinicians
+SELECT clinicianID, clinicID, name, dob,sex, email, phone, certification FROM clinicians
+
+Clinician Search
+"SELECT clinicianID, clinicID, name, dob, sex, email, phone, certification FROM clinicians WHERE name LIKE " + mysql.pool.escape(req.params.s + '%');
+
+Get Specific Clinic
+SELECT clinicianID as id, clinicID, name, dob, sex, email, phone, certification FROM clinicians WHERE clinicianID = ?
 
 Add Clinician
-INSERT INTO clinicians (clinicID, name, dob,sex, email, phone, certification)
-VALUES ($clinicIDInput, $nameInput, $dobInput, $sexInput, $emailInput, $phoneInput, $certificationInput);
-
+INSERT INTO clinicians (clinicianID, clinicID, name, dob, sex, email, phone, certification) VALUES (?,?,?,?,?,?,?,?)
 
 Update Clinicians
-UPDATE clinicians
-SET 
-clinicID = $clinicIDInput,
-name= $nameInput,
-dob = $dobInput,
-sex = $sexInput,
-email = $emailInput,
-phone = $phoneInput,
-certification = $certificationInput
-WHERE 
-clinicianID = $clinicianID;
-
+UPDATE clinicians SET clinicID=?, name=?, dob=?, sex=?, email=?, phone=?, certification=? WHERE clinicianID=?
 
 Delete Clinician
-DELETE FROM clinicians
-WHERE clinicianID = $clinicianID;
+DELETE FROM clinicians WHERE clinicianID = ?
 
 
 Manufacturers Page
 ---------------------————————-
 Show all Manufacturers
-SELECT manufactID, administered
-FROM manufacturers;
+SELECT manufactID, administered FROM manufacturers
 
+Manufacturer Search
+"SELECT manufactID, administered FROM manufacturers WHERE manufactID = " + mysql.pool.escape(req.params.s)"
 
 Add Manufacturer
-INSERT INTO manufacturers(administered)
-VALUES ($administeredInput);
-
-
-Update Manufacturers
-UPDATE manufacturers
-SET 
-administered = $administeredInput
-WHERE 
-manufactID = $manufactID;
-
+INSERT INTO manufacturers (manufactID, administered) VALUES (?,?)
 
 Delete Manufacturer
-DELETE FROM manufacturers
-WHERE manufactID = $manufactID;
+DELETE FROM manufacturers WHERE manufactID = ?
 
 
 Patients Page
 ---------------------————————-
-Show all Patients
-SELECT patientID, vaccineID, name, dob, sex, email, phone
-FROM patients;
+Get vaccineIDs
+SELECT vaccineID as id FROM vaccines
 
+Show all Patients
+SELECT patientID, vaccineID, name, dob, sex, email, phone FROM patients
+
+Patient Search
+"SELECT patientID, vaccineID, name, dob, sex, email, phone FROM patients WHERE name LIKE " + mysql.pool.escape(req.params.s + '%')
+
+Get Specific Patient
+SELECT patientID as id, vaccineID, name, dob, sex, email, phone FROM patients WHERE patientID= ?
 
 Add Patients
-INSERT INTO patients(vaccineID, name, dob, sex, email, phone)
-VALUES ($vaccineIDInput, $nameInput, $dobInput, $sexInput, $emailInput, $phoneInput);
-
+INSERT INTO patients (patientID, vaccineID, name, dob, sex, email, phone) VALUES (?,?,?,?,?,?,?)
 
 Update Patient
-UPDATE patients
-SET 
-vaccineID = $vaccineIDInput,
-name= $nameInput,
-dob = $dobInput,
-sex = $sexInput,
-email = $emailInput,
-phone = $phoneInput
-WHERE 
-patientID = $patientID;
-
+UPDATE patients SET vaccineID=?, name=?, dob=?, sex=?, email=?, phone=? WHERE patientID=?
 
 Delete Patient
-DELETE FROM patients
-WHERE patientID = $patientID;
+DELETE FROM patients WHERE patientID = ?
 
 
 Appointments Page
 ---------------------————————-
-Show all Appointments
-SELECT appointmentID, clinicID, patientID, vaccinePref, appointment
-FROM appointments;
+Get patientIDs
+SELECT patientID as id FROM patients
 
+Get clinicIDs
+SELECT clinicID as id FROM clinics
+
+Show all Appointments
+SELECT appointmentID, clinicID, patientID, vaccinePref, appointment FROM appointments
+
+Appointment Search
+"SELECT appointmentID, clinicID, patientID, vaccinePref, appointment FROM appointments WHERE appointmentID = " + mysql.pool.escape(req.params.s + '%')
+
+Get Specific Appointment
+SELECT appointmentID as id, clinicID, patientID, vaccinePref, appointment FROM appointments WHERE appointmentID = ?
 
 Add Appointments
-INSERT INTO appointments(clinicID, patientID, vaccinePref, time)
-VALUES ($clinicIDInputFromDropDown, $patientIDInputFromDropDown, $vaccinePrefInput, $timeInputFromDropDown);
-
+INSERT INTO appointments (appointmentID, clinicID, patientID, vaccinePref, appointment) VALUES (?,?,?,?,?)
 
 Update Appointments
-UPDATE appointments
-SET 
-clinicID = $clinicIDInputFromDropDown,
-patientID = $patientIDInputFromDropDown,
-vaccinePref = $vaccinePrefInput,
-time = $timeInputFromDropDown
-WHERE 
-appointmentID = $appointmentID;
-
+UPDATE appointments SET clinicID=?, patientID=?, vaccinePref=?, appointment=? WHERE appointmentID=?
 
 Delete Appointment
-DELETE FROM appointments
-WHERE appointmentID = $appointmentID;
+DELETE FROM appointments WHERE appointmentID = ?
