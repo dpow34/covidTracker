@@ -1,29 +1,29 @@
 <html>
-<h1>Update Clinician ID {{clinician.id}}</h1>
+<h1>Update Clinician: {{clinician.name}}</h1>
 <form id="update-clinician" action="/clinicians" method="post">
     Clinic ID: <select id="clinic" name ="clinicID">
       {{#each clinics}}
-      <option value={{id}}>{{id}}</option>
+      <option value={{id}}>{{clinicName}}</option>
       {{/each}}
       </select required><br>
   	    <label for="name">Clinician Name:</label>
   		<input type="text" id="name" name="name" value="{{clinician.name}}" required><br>
       <label for="dob">Date of Birth:</label>
-      <input type="text" id="dob" name="dob" value="{{clinician.dob}}" required><br>
+      <input type="text" id="dob" name="dob" value="{{clinician.dob}}" pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" required><br>
       <label for="sex">Sex:</label>
       <input type="radio" id="sex" name="sex" value="Male" required>Male
       <input type="radio" id="sex" name="sex" value="Female">Female<br>
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" value="{{clinician.email}}" required><br>
       <label for="phone">Phone Number:</label>
-      <input type="phone" id="phone" name="phone" value="{{clinician.phone}}" required><br>
+      <input type="tel" id="phone" name="phone" value="{{clinician.phone}}" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required><br>
   		<label for="cert">Certified:</label>
   		<input type="radio" id="certification" name="certification" value="True" required>True
   		<input type="radio" id="certification" name="certification" value="False">False<br>
   		
 </form>
 <button onclick="updateClinician({{clinician.id}})">Update</button>
-<script defer>selectClinicID({{clinician.clinicID}});</script>
+<script defer>selectClinicID({{clinician.clinic}});</script>
 <script>
       var Male = 'Male';
       var Female = 'Female';

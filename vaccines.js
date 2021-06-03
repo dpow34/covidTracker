@@ -2,21 +2,21 @@ module.exports = function(){
     var express = require('express');
     var router = express.Router();
 
-    /*Get all manufactIDs from manufacturers*/
-    function getManufactIDs(res, mysql, context, complete){
-        mysql.pool.query("SELECT manufactID as id FROM manufacturers", function(error, results, fields){
+    /*Get all distributorIDs from distributors*/
+    function getDistributorIDs(res, mysql, context, complete){
+        mysql.pool.query("SELECT distributorID as id, name, status FROM distributors", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.manufacturers  = results;
+            context.distributors  = results;
             complete();
         });
     }
 
     /*Get all vaccines and their details*/
     function getVaccines(res, mysql, context, complete){
-        mysql.pool.query("SELECT vaccineID, manufactID, pfizer, moderna, johnson FROM vaccines", function(error, results, fields){
+        mysql.pool.query("SELECT vaccines.vaccineID, distributors.name AS distroName, vacType FROM vaccines INNER JOIN distributors ON distroName = distributors.distributorID", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -28,7 +28,7 @@ module.exports = function(){
 
     /*Get specific vaccine for updating*/
     function getVaccine(res, mysql, context, id, complete){
-        var sql = "SELECT vaccineID as id, manufactID, pfizer, moderna, johnson FROM vaccines WHERE vaccineID = ?";
+        var sql = "SELECT vaccineID as id, distroName, vacType FROM vaccines WHERE vaccineID = ?";
         var inserts = [id];
         mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
@@ -43,7 +43,7 @@ module.exports = function(){
     /* Find vaccineID that matches given req */
     function vaccineSearch(req, res, mysql, context, complete) {
         //sanitize the input as well as include the % character
-         var query = "SELECT vaccineID as vaccineID, manufactID, pfizer, moderna, johnson FROM vaccines WHERE vaccineID = " + mysql.pool.escape(req.params.s);
+         var query = "SELECT vaccines.vaccineID, distributors.name AS distroName, vacType FROM vaccines INNER JOIN distributors ON distroName = distributors.distributorID WHERE vaccineID = " + mysql.pool.escape(req.params.s);
         mysql.pool.query(query, function(error, results, fields){
               if(error){
                   res.write(JSON.stringify(error));
@@ -61,7 +61,7 @@ module.exports = function(){
         context.jsscripts = ["deleteFunctions.js", "selectorFunctions.js", "updateFunctions.js", "searchFunctions.js"];
         var mysql = req.app.get('mysql');
         getVaccines(res, mysql, context, complete);
-        getManufactIDs(res, mysql, context, complete);
+        getDistributorIDs(res, mysql, context, complete);
         function complete(){
             callbackCount++;
             if(callbackCount >= 2){
@@ -93,7 +93,7 @@ module.exports = function(){
         context.jsscripts = ["deleteFunctions.js", "selectorFunctions.js", "updateFunctions.js", "searchFunctions.js"];
         var mysql = req.app.get('mysql');
         getVaccine(res, mysql, context, req.params.id, complete);
-        getManufactIDs(res, mysql, context, complete);
+        getDistributorIDs(res, mysql, context, complete);
         function complete(){
             callbackCount++;
             if(callbackCount >= 2){
@@ -105,25 +105,24 @@ module.exports = function(){
 
     /* Adds a vaccine, redirects to the vaccines page after adding */
     router.post('/', function(req, res){
-        console.log(req.body);
-        if(req.body.vacType == 'Pfizer'){
-            req.body.pfizer = 'True';
-            req.body.moderna = 'False';
-            req.body.johnson = 'False';
-        }
-        if(req.body.vacType == 'Moderna'){
-            req.body.pfizer = 'False';
-            req.body.moderna = 'True';
-            req.body.johnson = 'False';
-        }
-        if(req.body.vacType == 'Johnson'){
-            req.body.pfizer = 'False';
-            req.body.moderna = 'False';
-            req.body.johnson = 'True';
-        }
+        // if(req.body.vacType == 'Pfizer'){
+        //     req.body.pfizer = 'True';
+        //     req.body.moderna = 'False';
+        //     req.body.johnson = 'False';
+        // }
+        // if(req.body.vacType == 'Moderna'){
+        //     req.body.pfizer = 'False';
+        //     req.body.moderna = 'True';
+        //     req.body.johnson = 'False';
+        // }
+        // if(req.body.vacType == 'Johnson'){
+        //     req.body.pfizer = 'False';
+        //     req.body.moderna = 'False';
+        //     req.body.johnson = 'True';
+        // }
         var mysql = req.app.get('mysql');
-        var sql = "INSERT INTO vaccines (vaccineID, manufactID, pfizer, moderna, johnson) VALUES (?,?,?,?,?)";
-        var inserts = [req.body.vaccineID, req.body.manufactID, req.body.pfizer, req.body.moderna, req.body.johnson];
+        var sql = "INSERT INTO vaccines (vaccineID, distroName, vacType) VALUES (?,?,?)";
+        var inserts = [req.body.vaccineID, req.body.distributorID, req.body.vacType];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 console.log(JSON.stringify(error))
@@ -138,23 +137,23 @@ module.exports = function(){
     /* The URI that update data is sent to in order to update a vaccine */
     router.put('/:id', function(req, res){
         var mysql = req.app.get('mysql');
-        if(req.body.vacType == 'Pfizer'){
-            req.body.pfizer = 'True';
-            req.body.moderna = 'False';
-            req.body.johnson = 'False';
-        }
-        if(req.body.vacType == 'Moderna'){
-            req.body.pfizer = 'False';
-            req.body.moderna = 'True';
-            req.body.johnson = 'False';
-        }
-        if(req.body.vacType == 'Johnson'){
-            req.body.pfizer = 'False';
-            req.body.moderna = 'False';
-            req.body.johnson = 'True';
-        }
-        var sql = "UPDATE vaccines SET manufactID=?, pfizer=?, moderna=?, johnson=? WHERE vaccineID=?";
-        var inserts = [req.body.manufactID, req.body.pfizer, req.body.moderna, req.body.johnson, req.params.id];
+        // if(req.body.vacType == 'Pfizer'){
+        //     req.body.pfizer = 'True';
+        //     req.body.moderna = 'False';
+        //     req.body.johnson = 'False';
+        // }
+        // if(req.body.vacType == 'Moderna'){
+        //     req.body.pfizer = 'False';
+        //     req.body.moderna = 'True';
+        //     req.body.johnson = 'False';
+        // }
+        // if(req.body.vacType == 'Johnson'){
+        //     req.body.pfizer = 'False';
+        //     req.body.moderna = 'False';
+        //     req.body.johnson = 'True';
+        // }
+        var sql = "UPDATE vaccines SET distroName=?, vacType=? WHERE vaccineID=?";
+        var inserts = [req.body.distributorID, req.body.vacType, req.params.id];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 console.log(error)

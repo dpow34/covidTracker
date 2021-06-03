@@ -5,37 +5,44 @@
 </head>
 <body>
   <center>
-<a href="/index.html">Home</a>
+<a href="index.html">Home</a>
 <a href='/vaccines'>Vaccines</a>
 <a href="/appointments">Appointments</a>
 <a href="/patients">Patients</a>
 <a href="/clinics">Clinics</a>
 <a href="/clinicians">Clinicians</a>
-<a href="/manufacturers">Manufacturers</a></body>
+<a href="/distributors">Distributors</a></body>
 </center>
 <center><h1>Vaccine Type</h1></center>
   <center><form id="addvacc" action="/vaccines" method="post" style="margin:10;float:left;width: 30%">
-      Manufacturer ID: <select name ="manufactID">
-      {{#each manufacturers}}
-      <option>{{id}}</option>
+      <h3>Add Vaccine</h3>
+      Vaccine Type:  <select name="vacType" id="vacType">
+      <option value="Pfizer">Pfizer</option>
+      <option value="Moderna">Moderna</option>
+      <option value="Johnson">Johnson</option>
+      </select><br>
+      Distributor: <select name ="distributorID">
+      {{#each distributors}}
+      <option value={{id}}>{{name}}</option>
       {{/each}}
       </select><br>
-      <label for="pfizer">Pfizer</label>
+      {{!-- <label for="pfizer">Pfizer</label>
       <input type="radio" id="pfizer" name="vacType" value="Pfizer" required>
       <label for="moderna">Moderna</label>
       <input type="radio" id="moderna" name="vacType" value="Moderna">
       <label for="vacType">Johnson & Johnson</label>
-      <input type="radio" id="johnson" name="vacType" value="Johnson"><br>
+      <input type="radio" id="johnson" name="vacType" value="Johnson"><br> --}}
       <input type="submit" value="Submit">
   </form>
   </center>
-  
+  <br>
   <br>
   </form></center>
-  <center><form id="search-vaccines"> 
-  <input type="text" id="vaccineID_search" name="vaccineID_search" placeholder="Search Vaccine ID">
+  <center><form id="search-vaccines" style="float:right;width: 40%"> 
+  <input type="text" id="vaccineID_search" name="vaccineID_search" placeholder="Search Vaccine ID" required>
   <input type="button" value="Search" onclick="searchVaccineID()">
 </form></center>
+  <center><a href='/vaccines'><input type=button value='Refresh Table'></a></center>
 <br>
   <br>
   <br>
@@ -48,19 +55,15 @@
 <TABLE style="margin: 0px auto;" BORDER="5"    WIDTH="90%"   CELLPADDING="4" CELLSPACING="3">
     <thead> 
         <th>Vaccine ID</th> 
-        <th>Maufacturer ID</th> 
-        <th>Pfizer</th>
-        <th>Moderna</th>  
-        <th>Johnson</th>
+        <th>Vaccine Type</th> 
+        <th>Distributor</th>
     </thead> 
     <tbody>
         {{#each vaccines}} 
         <TR ALIGN="CENTER"> 
             <td>{{vaccineID}}</td> 
-            <td>{{manufactID}}</td> 
-            <td>{{pfizer}}</td> 
-            <td>{{moderna}}</td>
-            <td>{{johnson}}</td>
+            <td>{{vacType}}</td> 
+            <td>{{distroName}}</td> 
             <td><button onclick="deleteVaccine({{vaccineID}})">Delete</button></td>
             <td><a href="/vaccines/{{vaccineID}}">Update</a></td>
         </tr> 

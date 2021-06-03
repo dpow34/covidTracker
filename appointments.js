@@ -4,7 +4,7 @@ module.exports = function(){
 
     /* Get patientIDs from patients */
     function getPatientIDs(res, mysql, context, complete){
-        mysql.pool.query("SELECT patientID as id FROM patients", function(error, results, fields){
+        mysql.pool.query("SELECT patientID as id, name FROM patients", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -16,7 +16,7 @@ module.exports = function(){
 
     /* Get clinicIDs from clinics */
     function getClinicIDs(res, mysql, context, complete){
-        mysql.pool.query("SELECT clinicID as id FROM clinics", function(error, results, fields){
+        mysql.pool.query("SELECT clinicID as id, clinicName FROM clinics", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();

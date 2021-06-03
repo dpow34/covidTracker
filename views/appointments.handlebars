@@ -5,24 +5,25 @@
 </head>
 <body>
 <center>
-<a href="/index.html">Home</a>
+<a href="index.html">Home</a>
 <a href='/vaccines'>Vaccines</a>
 <a href="/appointments">Appointments</a>
 <a href="/patients">Patients</a>
 <a href="/clinics">Clinics</a>
 <a href="/clinicians">Clinicians</a>
-<a href="/manufacturers">Manufacturers</a></body>
+<a href="/distributors">Distributors</a></body>
 </center>
 <center><h1>Set an Appointment</h1></center>
 <center><form id="appt" action="/appointments" method="post" style="margin:10;float:left;width: 30%">
+      <h3>Add Appointment</h3>
       Clinic ID: <select name ="clinicID">
       {{#each clinics}}
-      <option>{{id}}</option>
+      <option value={{id}}>{{clinicName}}</option>
       {{/each}}
       </select required><br>
       Patient ID: <select name ="patientID">
       {{#each patients}}
-      <option>{{id}}</option>
+      <option value={{id}}>{{name}}</option>
       {{/each}}
       </select required><br><br>
       <label>Vaccine Preference:</label><br>
@@ -73,10 +74,14 @@
         </select>
         <br><input type="submit" value="Submit">
   </form></center>
-  <center><form id="form"> 
-  <input type="search" id="appointmentID_search" name="appointmentID_search" placeholder="Search Appointment ID">
+  <br>
+  <br>
+  <br>
+  <center><form id="form" style="float:right;width: 40%"> 
+  <input type="search" id="appointmentID_search" name="appointmentID_search" placeholder="Search Appointment ID" required>
   <input type="button" value="Search" onclick="searchAppointments()">
 </form></center>  
+<center><a href='/appointments'><input type=button value='Refresh Table'></a></center>
 
   <br>
   <br>

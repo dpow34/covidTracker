@@ -1,13 +1,5 @@
-function selectVaccine(pfizer, moderna, johnson){
-    if(pfizer == True){
-        $(':input:radio:eq(0)').attr('checked', 'checked');
-    }
-    if(moderna == True){
-        $(':input:radio:eq(1)').attr('checked', 'checked');
-    }
-    if(johnson == True){
-        $(':input:radio:eq(2)').attr('checked', 'checked');
-    }
+function selectVaccine(vacType){
+    $("#vacType").val(vacType);
 }
 
 function selectVaccine2(vaccine){
@@ -60,8 +52,8 @@ function selectCert(cert){
 }
 
 
-function selectManufactID(id){
-    $("#manufactID-selector").val(id);
+function selectDistributorID(id){
+    $("#distributorID-selector").val(id);
 }
 
 function selectClinicID(id){

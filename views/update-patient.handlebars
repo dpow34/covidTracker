@@ -1,25 +1,25 @@
 <html>
-<h1>Update Patient ID {{patient.id}}</h1>
+<h1>Update Patient: {{patient.name}}</h1>
 <form id="update-patient" action="/patients" method="post">
      Vaccine ID: <select name ="vaccineID" id="vaccineID-selector">
       {{#each vaccines}}
-      <option value="{{id}}">{{id}}</option>
+      <option value="{{id}}">{{vacType}}</option>
       {{/each}}
       </select required><br>
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" value="{{patient.name}}" required><br>
       <label for="dob">Date of Birth:</label>
-      <input type="text" id="dob" name="dob" value="{{patient.dob}}"required><br>
+      <input type="text" id="dob" name="dob" value="{{patient.dob}}" pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" required><br>
       <label for="sex">Sex:</label>
       <input type="radio" id="sex" name="sex" value="Male" required>Male
       <input type="radio" id="sex" name="sex" value="Female">Female<br>
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" value="{{patient.email}}"><br>
       <label for="phone">Phone:</label>
-      <input style="width:85px" type="phone" id="phone" name="phone" value="{{patient.phone}}"><br>
+      <input style="width:85px" type="tel" id="phone" name="phone" value="{{patient.phone}}" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"><br>
 </form>
 <button onclick="updatePatient({{patient.id}})">Update</button>
-<script defer>selectVaccineID({{patient.vaccineID}});</script>
+<script defer>selectVaccineID({{patient.vaccine}});</script>
 <script>
       var Male = 'Male';
       var Female = 'Female';

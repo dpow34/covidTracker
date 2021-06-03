@@ -1,23 +1,23 @@
 <html>
 <h1>Update Vaccine ID {{vaccine.id}}</h1>
 <form id="update-vaccine" action="/vaccines" method="post">
-    Manufacturer ID: <select name="manufactID" id="manufactID-selector"> 
-        {{#each manufacturers}}
-            <option value="{{id}}">{{id}}</option>
+    Vaccine Type:  <select name="vacType" id="vacType">
+      <option value="Pfizer">Pfizer</option>
+      <option value="Moderna">Moderna</option>
+      <option value="Johnson">Johnson</option>
+      </select><br>
+      Distributor: <select name="distributorID" id="distributorID-selector"> 
+        {{#each distributors}}
+            <option value="{{id}}">{{name}}</option>
         {{/each}}
     </select><br>
-    <label for="pfizer">Pfizer</label>
-      <input type="radio" id="pfizer" name="vacType" value="Pfizer" required>
-      <label for="moderna">Moderna</label>
-      <input type="radio" id="moderna" name="vacType" value="Moderna">
-      <label for="vacType">Johnson & Johnson</label>
-      <input type="radio" id="johnson" name="vacType" value="Johnson"><br>
 </form>
 <script> 
-    var False = False; 
-    var True = True;  
+    var Pfizer = 'Pfizer'; 
+    var Moderna = 'Moderna';
+    var Johnson = 'Johnson';  
 </script>
 <button onclick="updateVaccine({{vaccine.id}})">Update</button>
-<script defer>selectManufactID({{vaccine.manufactID}});</script>
-<script defer>selectVaccine({{vaccine.pfizer}}, {{vaccine.moderna}}, {{vaccine.johnson}});</script>
+<script defer>selectDistributorID({{vaccine.distroName}});</script>
+<script defer>selectVaccine({{vaccine.vacType}});</script>
 </html>

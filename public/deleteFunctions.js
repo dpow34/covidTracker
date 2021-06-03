@@ -1,6 +1,6 @@
-function deleteManufacturer(manufactID){
+function deleteDistributor(distributorID){
     $.ajax({
-        url: '/manufacturers/' + manufactID,
+        url: '/distributors/' + distributorID,
         type: 'DELETE',
         success: function(result){
             window.location.reload(true);

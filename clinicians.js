@@ -4,7 +4,7 @@ module.exports = function(){
 
     /* Gets all clinicIDs in clinics */
     function getClinicIDs(res, mysql, context, complete){
-        mysql.pool.query("SELECT clinicID as id FROM clinics", function(error, results, fields){
+        mysql.pool.query("SELECT clinicID as id, clinicName FROM clinics", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -16,7 +16,7 @@ module.exports = function(){
 
     /* Gets all clinicians and their personal details */
     function getClinicians(res, mysql, context, complete){
-        mysql.pool.query("SELECT clinicianID, clinicID, name, dob,sex, email, phone, certification FROM clinicians", function(error, results, fields){
+        mysql.pool.query("SELECT clinicians.clinicianID, name, clinics.clinicName AS clinic, dob, sex, email, clinicians.phone, certification FROM clinicians INNER JOIN clinics ON clinic = clinics.clinicID ", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -29,7 +29,7 @@ module.exports = function(){
     /* Find clinician whose name starts with a given string in the req */
     function getClinicianWithNameLike(req, res, mysql, context, complete) {
       //sanitize the input as well as include the % character
-       var query = "SELECT clinicianID, clinicID, name, dob, sex, email, phone, certification FROM clinicians WHERE name LIKE " + mysql.pool.escape(req.params.s + '%');
+       var query = "SELECT clinicians.clinicianID, name, clinics.clinicName AS clinic, dob, sex, email, clinicians.phone, certification FROM clinicians INNER JOIN clinics ON clinic = clinics.clinicID WHERE name LIKE " + mysql.pool.escape(req.params.s + '%');
       mysql.pool.query(query, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
@@ -42,7 +42,7 @@ module.exports = function(){
 
     /* Gets details of specific clinician for updating */
     function getClinician(res, mysql, context, id, complete){
-        var sql = "SELECT clinicianID as id, clinicID, name, dob, sex, email, phone, certification FROM clinicians WHERE clinicianID = ?";
+        var sql = "SELECT clinicianID as id, clinic, name, dob, sex, email, phone, certification FROM clinicians WHERE clinicianID = ?";
         var inserts = [id];
         mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
@@ -106,7 +106,7 @@ module.exports = function(){
     /* Adds a clinician, redirects to the clincians page after adding */
     router.post('/', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "INSERT INTO clinicians (clinicianID, clinicID, name, dob, sex, email, phone, certification) VALUES (?,?,?,?,?,?,?,?)";
+        var sql = "INSERT INTO clinicians (clinicianID, clinic, name, dob, sex, email, phone, certification) VALUES (?,?,?,?,?,?,?,?)";
         var inserts = [req.body.clinicianID, req.body.clinicID, req.body.name, req.body.dob, req.body.sex, req.body.email, req.body.phone, req.body.certification];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
@@ -122,7 +122,7 @@ module.exports = function(){
     /* The URI that update data is sent to in order to update a clinician */
     router.put('/:id', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "UPDATE clinicians SET clinicID=?, name=?, dob=?, sex=?, email=?, phone=?, certification=? WHERE clinicianID=?";
+        var sql = "UPDATE clinicians SET clinic=?, name=?, dob=?, sex=?, email=?, phone=?, certification=? WHERE clinicianID=?";
         var inserts = [req.body.clinicID, req.body.name, req.body.dob, req.body.sex, req.body.email, req.body.phone, req.body.certification, req.params.id];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){

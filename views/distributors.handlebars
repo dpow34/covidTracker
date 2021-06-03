@@ -1,0 +1,60 @@
+<html>
+<head>
+   <meta charset="UTF-8">
+   <title>COVID-19 Vaccine Tracker</title>
+</head>
+<body>
+  <center>
+<a href="index.html">Home</a>
+<a href='/vaccines'>Vaccines</a>
+<a href="/appointments">Appointments</a>
+<a href="/patients">Patients</a>
+<a href="/clinics">Clinics</a>
+<a href="/clinicians">Clinicians</a>
+<a href="/distributors">Distributors</a></body>
+<center><h1>Distributor Tracker</h1></center>
+<center><form id="addVac" action="/distributors" method="post" style="margin:10;float:left;width: 30%">
+      <h3>Add Distributor</h3>
+      <label for="distroName">Distributor Name:</label>
+      <input type="text" id="distroName" name="distroName" required><br>
+      <label for="cert">Status:</label>
+      <input type="radio" id="status" name="status" value="Delivered">Delivered
+      <input type="radio" id="status" name="status" value="Not Delivered">Not Delivered<br>
+      <input type="submit" value="Submit">
+  </form>
+  </center>
+  <br>
+  <br>
+ <center><form id="form" style="float:right;width: 40%"> 
+   <input type="search" id="distributorID_search" name="distributorID_search" placeholder="Search Distributor Name" required>
+   <input type="button" value="Search" onclick="searchDistributors()">
+ </form></center>
+ <center><a href='/distributors'><input type=button value='Refresh Table'></a></center>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+<TABLE style="margin: 0px auto;" BORDER="5"    WIDTH="90%"   CELLPADDING="4" CELLSPACING="3">
+   <TR>
+      </TH>
+   </TR>
+   <TR>
+      <TH>Distributor ID</TH>
+      <TH>Distributor Name</TH>
+      <TH>Status</TH>
+   </TR>
+   {{#each distributors}}
+   <TR ALIGN="CENTER">
+      <TD>{{distributorID}}</TD>
+      <TD>{{name}}</TD>
+      <TD>{{status}}</TD>
+      <td><button onclick="deleteDistributor({{distributorID}})">Delete</button></td>
+   </TR>
+   {{/each}}
+   </TR>
+</TABLE> 
+</body>  
+</html>

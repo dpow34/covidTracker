@@ -3,12 +3,12 @@
 <form id="update-appointment" action="/appointments" method="post">
     Clinic ID: <select id="clinic" name ="clinicID">
       {{#each clinics}}
-      <option>{{id}}</option>
+      <option value={{id}}>{{clinicName}}</option>
       {{/each}}
       </select required><br>
       Patient ID: <select id="patient" name ="patientID">
       {{#each patients}}
-      <option>{{id}}</option>
+      <option value={{id}}>{{name}}</option>
       {{/each}}
       </select required><br><br>
       <label>Vaccine Preference:</label><br>

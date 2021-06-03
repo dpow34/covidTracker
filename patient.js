@@ -4,7 +4,7 @@ module.exports = function(){
 
     /* Get vaccineIDs from vaccines */
     function getVaccineIDs(res, mysql, context, complete){
-        mysql.pool.query("SELECT vaccineID as id FROM vaccines", function(error, results, fields){
+        mysql.pool.query("SELECT vaccineID as id, vacType FROM vaccines", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -16,7 +16,7 @@ module.exports = function(){
 
     /* Get patients and their details */
     function getPatients(res, mysql, context, complete){
-        mysql.pool.query("SELECT patientID, vaccineID, name, dob, sex, email, phone FROM patients", function(error, results, fields){
+        mysql.pool.query("SELECT patients.patientID, vaccines.vacType as vaccine, name, dob, sex, email, phone FROM patients INNER JOIN vaccines ON vaccine = vaccines.vaccineID", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -29,7 +29,7 @@ module.exports = function(){
     /* Find patient whose name starts with a given string in the req */
     function getPatientWithNameLike(req, res, mysql, context, complete) {
       //sanitize the input as well as include the % character
-       var query = "SELECT patientID, vaccineID, name, dob, sex, email, phone FROM patients WHERE name LIKE " + mysql.pool.escape(req.params.s + '%');
+       var query = "SELECT patients.patientID, vaccines.vacType as vaccine, name, dob, sex, email, phone FROM patients INNER JOIN vaccines ON vaccine = vaccines.vaccineID where name LIKE " + mysql.pool.escape(req.params.s + '%');
       mysql.pool.query(query, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
@@ -42,7 +42,7 @@ module.exports = function(){
 
     /* Get specific patient for updating */
     function getPatient(res, mysql, context, id, complete){
-        var sql = "SELECT patientID as id, vaccineID, name, dob, sex, email, phone FROM patients WHERE patientID= ?";
+        var sql = "SELECT patientID as id, vaccine, name, dob, sex, email, phone FROM patients WHERE patientID= ?";
         var inserts = [id];
         mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
@@ -106,7 +106,7 @@ module.exports = function(){
     /* Adds a patient, redirects to the patients page after adding */
     router.post('/', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "INSERT INTO patients (patientID, vaccineID, name, dob, sex, email, phone) VALUES (?,?,?,?,?,?,?)";
+        var sql = "INSERT INTO patients (patientID, vaccine, name, dob, sex, email, phone) VALUES (?,?,?,?,?,?,?)";
         var inserts = [req.body.patientID, req.body.vaccineID, req.body.name, req.body.dob, req.body.sex, req.body.email, req.body.phone];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
@@ -122,7 +122,7 @@ module.exports = function(){
     /* The URI that update data is sent to in order to update a patient */
     router.put('/:id', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "UPDATE patients SET vaccineID=?, name=?, dob=?, sex=?, email=?, phone=? WHERE patientID=?";
+        var sql = "UPDATE patients SET vaccine=?, name=?, dob=?, sex=?, email=?, phone=? WHERE patientID=?";
         var inserts = [req.body.vaccineID, req.body.name, req.body.dob, req.body.sex, req.body.email, req.body.phone, req.params.id];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){

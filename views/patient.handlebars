@@ -5,38 +5,44 @@
 </head>
 <body>
   <center>
-<a href="/index.html">Home</a>
+<a href="index.html">Home</a>
 <a href='/vaccines'>Vaccines</a>
 <a href="/appointments">Appointments</a>
 <a href="/patients">Patients</a>
 <a href="/clinics">Clinics</a>
 <a href="/clinicians">Clinicians</a>
-<a href="/manufacturers">Manufacturers</a></body>
+<a href="/distributors">Distributors</a></body>
 <center><h1>Patient Records</h1></center>
   <center><form id="addPatient" action="/patients" method="post" style="margin:10;float:left;width: 30%">
-      Vaccine ID: <select name ="vaccineID">
-      {{#each vaccines}}
-      <option>{{id}}</option>
-      {{/each}}
-      </select required><br>
+      <h3>Add Patient</h3>
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" required><br>
+      Vaccine ID: <select name ="vaccineID">
+      {{!-- <option value=NULL>N/A</option> --}}
+      {{#each vaccines}}
+      <option value="{{id}}">{{vacType}}</option>
+      {{/each}}
+      </select required><br>
       <label for="dob">Date of Birth:</label>
-      <input type="text" id="dob" name="dob" placeholder="MM-DD-YYYY" required><br>
+      <input type="text" id="dob" name="dob" placeholder="MM-DD-YYYY" pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" required><br>
       <label for="sex">Sex:</label>
       <input type="radio" id="sex" name="sex" value="Male" required>Male
       <input type="radio" id="sex" name="sex" value="Female">Female<br>
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" placeholder="example@gmail.com"><br>
       <label for="phone">Phone:</label>
-      <input style="width:85px" type="phone" id="phone" name="phone" placeholder="123-456-7890"><br>
+      <input style="width:85px" type="tel" id="phone" name="phone" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"><br>
       <input type="submit" value="Submit">
   </form></center>
   </form></center>
-  <center><form id="searchPatient"> 
-  <input type="text" id="first_name_search_string" name="first_name_search_string" placeholder="Search Patient Name">
+  <br>
+  <br>
+  <br>
+  <center><form id="searchPatient" style="float:right;width: 40%"> 
+  <input type="text" id="first_name_search_string" name="first_name_search_string" placeholder="Search Patient Name" required>
   <input type="button" value="Search" onclick="searchPatientByFirstName()">
 </form></center>
+<center><a href='/patients'><input type=button value='Refresh Table'></a></center>
  <br>
   <br>
   <br>
@@ -55,18 +61,19 @@
    </TR>
    <TR>
       <TH>Patient ID</TH>
-      <TH>Vaccine ID</TH>
       <TH>Name</TH>
+      <TH>Vaccine Type</TH>
       <TH>Date of Birth</TH>
       <TH>Sex</TH>
       <TH>Email</TH>
       <TH>Phone Number</TH>
+
    </TR>
    {{#each patients}}
    <TR ALIGN="CENTER">
       <TD>{{patientID}}</TD>
-      <TD>{{vaccineID}}</TD>
       <TD>{{name}}</TD>
+      <TD>{{vaccine}}</TD>
       <TD>{{dob}}</TD>
       <TD>{{sex}}</TD>
       <TD>{{email}}</TD>

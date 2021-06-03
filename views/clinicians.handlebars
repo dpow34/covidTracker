@@ -5,41 +5,46 @@
 </head>
 <body>
   <center>
-<a href="/index.html">Home</a>
+<a href="index.html">Home</a>
 <a href='/vaccines'>Vaccines</a>
 <a href="/appointments">Appointments</a>
 <a href="/patients">Patients</a>
 <a href="/clinics">Clinics</a>
 <a href="/clinicians">Clinicians</a>
-<a href="/manufacturers">Manufacturers</a></body></center>
+<a href="/distributors">Distributors</a></body></center>
 <center><h1>Clinician Records</h1></center>
 <center><form id="addClinician" action="/clinicians" method="post" style="margin:10;float:left;width: 30%">
-      Clinic ID: <select name ="clinicID">
-      {{#each clinics}}
-      <option value={{id}}>{{id}}</option>
-      {{/each}}
-      </select required><br>
+      <h3>Add Clinician</h3>
   	    <label for="name">Clinician Name:</label>
   		<input type="text" id="name" name="name" required><br>
+      Clinic Name: <select name ="clinicID">
+      {{#each clinics}}
+      <option value={{id}}>{{clinicName}}</option>
+      {{/each}}
+      </select required><br>
       <label for="dob">Date of Birth:</label>
-      <input type="text" id="dob" name="dob" placeholder="MM-DD-YYYY" required><br>
+      <input type="text" id="dob" name="dob" placeholder="MM-DD-YYYY" pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" required><br>
       <label for="sex">Sex:</label>
       <input type="radio" id="sex" name="sex" value="Male">Male
       <input type="radio" id="sex" name="sex" value="Female">Female<br>
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" placeholder="example@gmail.com" required><br>
       <label for="phone">Phone Number:</label>
-      <input type="phone" id="phone" name="phone" placeholder="123-456-7890" required><br>
+      <input type="tel" id="phone" name="phone" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"required><br>
   		<label for="cert">Certified:</label>
   		<input type="radio" id="certification" name="certification" value="True">True
   		<input type="radio" id="certification" name="certification" value="False">False<br>
   		<input type="submit" value="Submit">
 	</form>
 </center>
-  <center><form id="form"> 
-  <input type="search" id="clinician_search" name="clinician_search" placeholder="Search Clinician Name">
+<br>
+<br>
+<br>
+  <center><form id="form" style="float:right;width: 40%"> 
+  <input type="search" id="clinician_search" name="clinician_search" placeholder="Search Clinician Name" required>
   <input type="button" value="Search" onclick="searchClinicians()">
 </form></center>
+<center><a href='/clinicians'><input type=button value='Refresh Table'></a></center>
   <br>
   <br>
   <br>
@@ -57,8 +62,8 @@
    </TR>
    <TR>
       <TH>Clinician ID</TH>
-      <TH>Clinic ID</TH>
       <TH>Clinician Name</TH>
+      <TH>Clinic</TH>
       <TH>Date of Birth</TH>
       <TH>Sex</TH>
       <TH>Email</TH>
@@ -68,8 +73,8 @@
    {{#each clinicians}}
    <TR ALIGN="CENTER">
       <TD>{{clinicianID}}</TD>
-      <TD>{{clinicID}}</TD>
       <TD>{{name}}</TD>
+      <TD>{{clinic}}</TD>
       <TD>{{dob}}</TD>
       <TD>{{sex}}</TD>
       <TD>{{email}}</TD>

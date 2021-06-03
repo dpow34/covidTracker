@@ -5,17 +5,17 @@
 </head>
 <body>
   <center>
-<a href="/index.html">Home</a>
+<a href="index.html">Home</a>
 <a href='/vaccines'>Vaccines</a>
 <a href="/appointments">Appointments</a>
 <a href="/patients">Patients</a>
 <a href="/clinics">Clinics</a>
 <a href="/clinicians">Clinicians</a>
-<a href="/manufacturers">Manufacturers</a></body></center>
+<a href="/distributors">Distributors</a></body></center>
 <center><h1>Clinics</h1></center>
 <center>
     <form id="clinics" action="/clinics" method="post" style="margin:10;float:left;width: 30%">
-      
+      <h3>Add Clinic</h3>
       <label for="clinicName">Clinic Name:</label>
       <input type="text" id="clinicName" name="clinicName" required><br>
       <label for="address">Address:</label>
@@ -31,10 +31,14 @@
       <input type="submit" value="Submit">
   </form></center>
     </form></center>
-  <center><form id="form"> 
-  <input type="search" id="clinic_search" name="clinic_search" placeholder="Search Clinic Name">
+    <br>
+    <br>
+    <br>
+  <center><form id="form" style="float:right;width: 40%"> 
+  <input type="search" id="clinic_search" name="clinic_search" placeholder="Search Clinic Name" required>
   <input type="button" value="Search" onclick="searchClinics()">
 </form></center>
+<center><a href='/clinics'><input type=button value='Refresh Table'></a></center>
 <br>
   <br>
   <br>
