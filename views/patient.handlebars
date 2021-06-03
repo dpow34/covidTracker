@@ -18,7 +18,7 @@
       <label for="name">Name:</label>
       <input type="text" id="name" name="name" required><br>
       Vaccine ID: <select name ="vaccineID">
-      {{!-- <option value=NULL>N/A</option> --}}
+      <option value=''>N/A</option>
       {{#each vaccines}}
       <option value="{{id}}">{{vacType}}</option>
       {{/each}}
