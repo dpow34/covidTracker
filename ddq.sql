@@ -1,4 +1,4 @@
-﻿SET FOREIGN_KEY_CHECKS = 0;
+SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS clinics;
 DROP TABLE IF EXISTS clinicians;
 DROP TABLE IF EXISTS distributors;
@@ -63,12 +63,12 @@ CREATE TABLE patients (
 
 CREATE TABLE appointments (
   appointmentID int(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  clinicID int(11) NOT NULL,
-  patientID int(11) NOT NULL,
+  clinic int(11) NOT NULL,
+  patient int(11) NOT NULL,
   vaccinePref varchar(255),
   appointment varchar(255) NOT NULL,
-  FOREIGN KEY (clinicID) REFERENCES clinics (clinicID) ON DELETE CASCADE,
-  FOREIGN KEY (patientID) REFERENCES patients (patientID)
+  FOREIGN KEY (clinic) REFERENCES clinics (clinicID) ON DELETE CASCADE,
+  FOREIGN KEY (patient) REFERENCES patients (patientID)
   ON DELETE CASCADE
 );
 
@@ -109,17 +109,8 @@ VALUES
   (0000003, 0000001, 'Mindy Gomez', '08-01-1954', 'Female' , 'mindyg54@gmail.com','222-555-1234');
 
 
-INSERT INTO appointments (appointmentID, clinicID, patientID, vaccinePref, appointment)
+INSERT INTO appointments (appointmentID, clinic, patient, vaccinePref, appointment)
 VALUES
   (00001, 00001, 00003, 'Pfizer', '10:00 AM'),
   (00002, 00002, 00001, NULL, '1:15 PM'),
   (00003, 00003, 00002, 'Johnson', '8:00 AM');
-
-
-
-
-
-
-
-
-
