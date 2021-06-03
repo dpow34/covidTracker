@@ -107,6 +107,9 @@ module.exports = function(){
     router.post('/', function(req, res){
         var mysql = req.app.get('mysql');
         var sql = "INSERT INTO patients (patientID, vaccine, name, dob, sex, email, phone) VALUES (?,?,?,?,?,?,?)";
+        if (req.body.vaccineID == ''){
+            req.body.vaccineID = NULL;
+        }
         var inserts = [req.body.patientID, req.body.vaccineID, req.body.name, req.body.dob, req.body.sex, req.body.email, req.body.phone];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
@@ -123,6 +126,9 @@ module.exports = function(){
     router.put('/:id', function(req, res){
         var mysql = req.app.get('mysql');
         var sql = "UPDATE patients SET vaccine=?, name=?, dob=?, sex=?, email=?, phone=? WHERE patientID=?";
+        if (req.body.vaccineID == ''){
+            req.body.vaccineID = NULL;
+        }
         var inserts = [req.body.vaccineID, req.body.name, req.body.dob, req.body.sex, req.body.email, req.body.phone, req.params.id];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
