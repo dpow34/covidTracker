@@ -59,8 +59,8 @@
         </select>
 </form>
 <button onclick="updateAppointment({{appointment.id}})">Update</button>
-<script defer>selectClinicID({{appointment.clinicID}});</script>
-<script defer>selectPatientID({{appointment.patientID}});</script>
+<script defer>selectClinicID({{appointment.clinic}});</script>
+<script defer>selectPatientID({{appointment.patient}});</script>
 
 <script>
 function setSelectedIndex(s, v) {
