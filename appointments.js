@@ -28,7 +28,7 @@ module.exports = function(){
 
     /* Get appointments and their details */
     function getAppts(res, mysql, context, complete){
-        mysql.pool.query("SELECT appointmentID, clinicID, patientID, vaccinePref, appointment FROM appointments", function(error, results, fields){
+        mysql.pool.query("SELECT appointmentID, clinic, patient, vaccinePref, appointment FROM appointments", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -41,7 +41,7 @@ module.exports = function(){
     /* Find appointment that matches a given string in the req */
     function apptSearch(req, res, mysql, context, complete) {
       //sanitize the input as well as include the % character
-       var query = "SELECT appointmentID, clinicID, patientID, vaccinePref, appointment FROM appointments WHERE appointmentID = " + mysql.pool.escape(req.params.s + '%');
+       var query = "SELECT appointmentID, clinic, patient, vaccinePref, appointment FROM appointments WHERE appointmentID = " + mysql.pool.escape(req.params.s + '%');
       mysql.pool.query(query, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
@@ -54,7 +54,7 @@ module.exports = function(){
 
     /* Get specific appointment for updating */
     function getAppointment(res, mysql, context, id, complete){
-        var sql = "SELECT appointmentID as id, clinicID, patientID, vaccinePref, appointment FROM appointments WHERE appointmentID = ?";
+        var sql = "SELECT appointmentID as id, clinic, patient, vaccinePref, appointment FROM appointments WHERE appointmentID = ?";
         var inserts = [id];
         mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
@@ -120,7 +120,7 @@ module.exports = function(){
     /* Adds a appointment, redirects to the appointments page after adding */
     router.post('/', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "INSERT INTO appointments (appointmentID, clinicID, patientID, vaccinePref, appointment) VALUES (?,?,?,?,?)";
+        var sql = "INSERT INTO appointments (appointmentID, clinic, patient, vaccinePref, appointment) VALUES (?,?,?,?,?)";
         var inserts = [req.body.appointmentID, req.body.clinicID, req.body.patientID, req.body.vacType, req.body.appointment];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
@@ -136,7 +136,7 @@ module.exports = function(){
     /* The URI that update data is sent to in order to update an appointment */
     router.put('/:id', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "UPDATE appointments SET clinicID=?, patientID=?, vaccinePref=?, appointment=? WHERE appointmentID=?";
+        var sql = "UPDATE appointments SET clinic=?, patient=?, vaccinePref=?, appointment=? WHERE appointmentID=?";
         var inserts = [req.body.clinicID, req.body.patientID, req.body.vacType, req.body.appointment, req.params.id];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
