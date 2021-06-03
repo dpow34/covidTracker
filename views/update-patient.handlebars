@@ -2,6 +2,7 @@
 <h1>Update Patient: {{patient.name}}</h1>
 <form id="update-patient" action="/patients" method="post">
      Vaccine ID: <select name ="vaccineID" id="vaccineID-selector">
+      <option value=''>N/A</option>
       {{#each vaccines}}
       <option value="{{id}}">{{vacType}}</option>
       {{/each}}
