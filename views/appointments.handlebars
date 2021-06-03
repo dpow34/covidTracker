@@ -98,16 +98,16 @@
    </TR>
    <TR>
       <TH>Appointment ID</TH>
-      <TH>Clinic ID</TH>
-      <TH>Patient ID</TH>
+      <TH>Clinic</TH>
+      <TH>Patient</TH>
       <TH>Vaccine Preference</TH>
       <TH>Appointment Time</TH>
    </TR>
    {{#each appointments}}
    <TR ALIGN="CENTER">
         <td>{{appointmentID}}</td> 
-        <td>{{clinicID}}</td> 
-        <td>{{patientID}}</td>
+        <td>{{clinic}}</td> 
+        <td>{{patient}}</td>
         <td>{{vaccinePref}}</td>
         <td>{{appointment}}</td>
         <td><button onclick="deleteAppointment({{appointmentID}})">Delete</button></td>
