@@ -1,22 +1,22 @@
 ﻿Vaccines Page
 ---------------------————————-
 Show all Vaccines
-SELECT vaccineID, manufactID, pfizer, moderna, johnson FROM vaccines;
+SELECT vaccines.vaccineID, distributors.name AS distroName, vacType FROM vaccines INNER JOIN distributors ON distroName = distributors.distributorID;
 
-Get manufactIDs
-SELECT manufactID as id FROM manufacturers
+Get distributorIDs & name
+SELECT distributorID as id, name, status FROM distributors
 
 Add Vaccine
-INSERT INTO vaccines (vaccineID, manufactID, pfizer, moderna, johnson) VALUES (?,?,?,?,?)
+INSERT INTO vaccines (vaccineID, distroName, vacType) VALUES (?,?,?)
 
 Get Specific Vaccine
-SELECT vaccineID as id, manufactID, pfizer, moderna, johnson FROM vaccines WHERE vaccineID = ?
+SELECT vaccineID as id, distroName, vacType FROM vaccines WHERE vaccineID = ?
 
 Vaccine Search
-"SELECT vaccineID as vaccineID, manufactID, pfizer, moderna, johnson FROM vaccines WHERE vaccineID = " + mysql.pool.escape(req.params.s)
+"SELECT vaccines.vaccineID, distributors.name AS distroName, vacType FROM vaccines INNER JOIN distributors ON distroName = distributors.distributorID WHERE vaccineID = " + mysql.pool.escape(req.params.s);
 
 Update Vaccine
-UPDATE vaccines SET manufactID=?, pfizer=?, moderna=?, johnson=? WHERE vaccineID=?
+UPDATE vaccines SET distroName=?, vacType=? WHERE vaccineID=?
 
 Delete Vaccine
 DELETE FROM vaccines WHERE vaccineID = ?
@@ -28,7 +28,7 @@ Show all Clinics
 SELECT clinicID, clinicName, address, parking, publicTransport, phone FROM clinics
 
 Clinic Search
-"SELECT clinicID, clinicName, address, parking, publicTransport, phone FROM clinics WHERE clinicName LIKE  " + mysql.pool.escape(req.params.s + '%')
+"SELECT clinicID, clinicName, address, parking, publicTransport, phone FROM clinics WHERE clinicName LIKE  " + mysql.pool.escape(req.params.s + '%');
 
 Get Specific Clinic
 SELECT clinicID as id, clinicName, address, parking, publicTransport, phone FROM clinics WHERE clinicID = ?
@@ -45,62 +45,62 @@ DELETE FROM clinics WHERE clinicID = ?
 
 Clinicians Page
 ---------------------————————-
-Get clinicIDs
-SELECT clinicID as id FROM clinics
+Get clinicIDs & name
+SELECT clinicID as id, clinicName FROM clinics
 
 Show all Clinicians
-SELECT clinicianID, clinicID, name, dob,sex, email, phone, certification FROM clinicians
+SELECT clinicians.clinicianID, name, clinics.clinicName AS clinic, dob, sex, email, clinicians.phone, certification FROM clinicians INNER JOIN clinics ON clinic = clinics.clinicID
 
 Clinician Search
-"SELECT clinicianID, clinicID, name, dob, sex, email, phone, certification FROM clinicians WHERE name LIKE " + mysql.pool.escape(req.params.s + '%');
+"SELECT clinicians.clinicianID, name, clinics.clinicName AS clinic, dob, sex, email, clinicians.phone, certification FROM clinicians INNER JOIN clinics ON clinic = clinics.clinicID WHERE name LIKE " + mysql.pool.escape(req.params.s + '%');
 
 Get Specific Clinic
-SELECT clinicianID as id, clinicID, name, dob, sex, email, phone, certification FROM clinicians WHERE clinicianID = ?
+SELECT clinicianID as id, clinic, name, dob, sex, email, phone, certification FROM clinicians WHERE clinicianID = ?
 
 Add Clinician
-INSERT INTO clinicians (clinicianID, clinicID, name, dob, sex, email, phone, certification) VALUES (?,?,?,?,?,?,?,?)
+INSERT INTO clinicians (clinicianID, clinic, name, dob, sex, email, phone, certification) VALUES (?,?,?,?,?,?,?,?)
 
 Update Clinicians
-UPDATE clinicians SET clinicID=?, name=?, dob=?, sex=?, email=?, phone=?, certification=? WHERE clinicianID=?
+UPDATE clinicians SET clinic=?, name=?, dob=?, sex=?, email=?, phone=?, certification=? WHERE clinicianID=?
 
 Delete Clinician
 DELETE FROM clinicians WHERE clinicianID = ?
 
 
-Manufacturers Page
+Distributors Page
 ---------------------————————-
-Show all Manufacturers
-SELECT manufactID, administered FROM manufacturers
+Show all Distributors
+SELECT distributorID, name, status FROM distributors
 
-Manufacturer Search
-"SELECT manufactID, administered FROM manufacturers WHERE manufactID = " + mysql.pool.escape(req.params.s)"
+Distributor Search
+"SELECT distributorID, name, status FROM distributors WHERE name LIKE " + mysql.pool.escape(req.params.s + '%');
 
-Add Manufacturer
-INSERT INTO manufacturers (manufactID, administered) VALUES (?,?)
+Add Distributor
+INSERT INTO distributors (distributorID, name, status) VALUES (?,?, ?)
 
-Delete Manufacturer
-DELETE FROM manufacturers WHERE manufactID = ?
+Delete Distributor
+DELETE FROM distributors WHERE distributorID = ?
 
 
 Patients Page
 ---------------------————————-
-Get vaccineIDs
-SELECT vaccineID as id FROM vaccines
+Get vaccineIDs & vacType
+SELECT vaccineID as id, vacType FROM vaccines
 
 Show all Patients
-SELECT patientID, vaccineID, name, dob, sex, email, phone FROM patients
+SELECT patients.patientID, vaccines.vacType as vaccine, name, dob, sex, email, phone FROM patients LEFT JOIN vaccines ON vaccine = vaccines.vaccineID
 
 Patient Search
-"SELECT patientID, vaccineID, name, dob, sex, email, phone FROM patients WHERE name LIKE " + mysql.pool.escape(req.params.s + '%')
+"SELECT patients.patientID, vaccines.vacType as vaccine, name, dob, sex, email, phone FROM patients LEFT JOIN vaccines ON vaccine = vaccines.vaccineID where name LIKE " + mysql.pool.escape(req.params.s + '%');
 
 Get Specific Patient
-SELECT patientID as id, vaccineID, name, dob, sex, email, phone FROM patients WHERE patientID= ?
+SELECT patientID as id, vaccine, name, dob, sex, email, phone FROM patients WHERE patientID= ?
 
 Add Patients
-INSERT INTO patients (patientID, vaccineID, name, dob, sex, email, phone) VALUES (?,?,?,?,?,?,?)
+INSERT INTO patients (patientID, vaccine, name, dob, sex, email, phone) VALUES (?,?,?,?,?,?,?))
 
 Update Patient
-UPDATE patients SET vaccineID=?, name=?, dob=?, sex=?, email=?, phone=? WHERE patientID=?
+UPDATE patients SET vaccine=?, name=?, dob=?, sex=?, email=?, phone=? WHERE patientID=?
 
 Delete Patient
 DELETE FROM patients WHERE patientID = ?
@@ -108,26 +108,26 @@ DELETE FROM patients WHERE patientID = ?
 
 Appointments Page
 ---------------------————————-
-Get patientIDs
-SELECT patientID as id FROM patients
+Get patientIDs & name
+SELECT patientID as id, name FROM patients
 
-Get clinicIDs
-SELECT clinicID as id FROM clinics
+Get clinicIDs & name
+SELECT clinicID as id, clinicName FROM clinics
 
 Show all Appointments
-SELECT appointmentID, clinicID, patientID, vaccinePref, appointment FROM appointments
+SELECT appointments.appointmentID, clinics.clinicName as clinic, patients.name as patient, vaccinePref, appointment FROM appointments INNER JOIN clinics on clinic = clinics.clinicID INNER JOIN patients on patient = patients.patientID
 
 Appointment Search
-"SELECT appointmentID, clinicID, patientID, vaccinePref, appointment FROM appointments WHERE appointmentID = " + mysql.pool.escape(req.params.s + '%')
+"SELECT appointments.appointmentID, clinics.clinicName as clinic, patients.name as patient, vaccinePref, appointment FROM appointments INNER JOIN clinics on clinic = clinics.clinicID INNER JOIN patients on patient = patients.patientID WHERE appointmentID = " + mysql.pool.escape(req.params.s + '%');
 
 Get Specific Appointment
-SELECT appointmentID as id, clinicID, patientID, vaccinePref, appointment FROM appointments WHERE appointmentID = ?
+SELECT appointmentID as id, clinic, patient, vaccinePref, appointment FROM appointments WHERE appointmentID = ?
 
 Add Appointments
-INSERT INTO appointments (appointmentID, clinicID, patientID, vaccinePref, appointment) VALUES (?,?,?,?,?)
+INSERT INTO appointments (appointmentID, clinic, patient, vaccinePref, appointment) VALUES (?,?,?,?,?)
 
 Update Appointments
-UPDATE appointments SET clinicID=?, patientID=?, vaccinePref=?, appointment=? WHERE appointmentID=?
+UPDATE appointments SET clinic=?, patient=?, vaccinePref=?, appointment=? WHERE appointmentID=?
 
 Delete Appointment
 DELETE FROM appointments WHERE appointmentID = ?

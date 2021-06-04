@@ -14,7 +14,7 @@ module.exports = function(){
         });
     }
 
-    /* Find distributorID that matches given req */
+    /* Find distributor that matches given req */
     function searchDistributor(req, res, mysql, context, complete) {
       //sanitize the input as well as include the % character
        var query = "SELECT distributorID, name, status FROM distributors WHERE name LIKE " + mysql.pool.escape(req.params.s + '%');
@@ -44,7 +44,7 @@ module.exports = function(){
         }
     });
 
-    /*Display distributor whose distributor matches given ID. Requires web based javascript to delete users with AJAX */
+    /*Display distributor whose distributor matches given name. Requires web based javascript to delete users with AJAX */
     router.get('/search/:s', function(req, res){
         var callbackCount = 0;
         var context = {};

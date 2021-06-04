@@ -4,7 +4,7 @@
      Vaccine ID: <select name ="vaccineID" id="vaccineID-selector">
       <option value=''>N/A</option>
       {{#each vaccines}}
-      <option value="{{id}}">{{vacType}}</option>
+      <option value="{{id}}">{{id}} - {{vacType}}</option>
       {{/each}}
       </select required><br>
       <label for="name">Name:</label>

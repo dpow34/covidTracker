@@ -105,21 +105,6 @@ module.exports = function(){
 
     /* Adds a vaccine, redirects to the vaccines page after adding */
     router.post('/', function(req, res){
-        // if(req.body.vacType == 'Pfizer'){
-        //     req.body.pfizer = 'True';
-        //     req.body.moderna = 'False';
-        //     req.body.johnson = 'False';
-        // }
-        // if(req.body.vacType == 'Moderna'){
-        //     req.body.pfizer = 'False';
-        //     req.body.moderna = 'True';
-        //     req.body.johnson = 'False';
-        // }
-        // if(req.body.vacType == 'Johnson'){
-        //     req.body.pfizer = 'False';
-        //     req.body.moderna = 'False';
-        //     req.body.johnson = 'True';
-        // }
         var mysql = req.app.get('mysql');
         var sql = "INSERT INTO vaccines (vaccineID, distroName, vacType) VALUES (?,?,?)";
         var inserts = [req.body.vaccineID, req.body.distributorID, req.body.vacType];
@@ -137,21 +122,6 @@ module.exports = function(){
     /* The URI that update data is sent to in order to update a vaccine */
     router.put('/:id', function(req, res){
         var mysql = req.app.get('mysql');
-        // if(req.body.vacType == 'Pfizer'){
-        //     req.body.pfizer = 'True';
-        //     req.body.moderna = 'False';
-        //     req.body.johnson = 'False';
-        // }
-        // if(req.body.vacType == 'Moderna'){
-        //     req.body.pfizer = 'False';
-        //     req.body.moderna = 'True';
-        //     req.body.johnson = 'False';
-        // }
-        // if(req.body.vacType == 'Johnson'){
-        //     req.body.pfizer = 'False';
-        //     req.body.moderna = 'False';
-        //     req.body.johnson = 'True';
-        // }
         var sql = "UPDATE vaccines SET distroName=?, vacType=? WHERE vaccineID=?";
         var inserts = [req.body.distributorID, req.body.vacType, req.params.id];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){

@@ -82,7 +82,7 @@ VALUES
 
 INSERT INTO clinicians (clinicianID, clinic, name, dob, sex, email, phone, certification)
 VALUES
-  (0001, 00003, 'Megan Smith', '09-18-1994', 'Female', 'meg123@aol.com','123-555-1265', 'True'),
+  (0001, 00001, 'Megan Smith', '09-18-1994', 'Female', 'meg123@aol.com','123-555-1265', 'True'),
   (0002, 00002, 'Jill Moore', '12-13-1985', 'Female', 'jill12@yahoo.com','595-345-1178', 'True'),
   (0003, 00001, 'Robert Burt', '08-08-1970', 'Male' , 'robbie11@gmail.com','222-453-2354', 'False');
 
