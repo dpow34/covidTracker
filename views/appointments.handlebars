@@ -16,12 +16,12 @@
 <center><h1>Set an Appointment</h1></center>
 <center><form id="appt" action="/appointments" method="post" style="margin:10;float:left;width: 30%">
       <h3>Add Appointment</h3>
-      Clinic ID: <select name ="clinicID">
+      Clinic <select name ="clinicID">
       {{#each clinics}}
       <option value={{id}}>{{clinicName}}</option>
       {{/each}}
       </select required><br>
-      Patient ID: <select name ="patientID">
+      Patient: <select name ="patientID">
       {{#each patients}}
       <option value={{id}}>{{name}}</option>
       {{/each}}

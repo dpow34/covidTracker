@@ -123,6 +123,9 @@ module.exports = function(){
     router.put('/:id', function(req, res){
         var mysql = req.app.get('mysql');
         var sql = "UPDATE clinicians SET clinic=?, name=?, dob=?, sex=?, email=?, phone=?, certification=? WHERE clinicianID=?";
+        if (req.body.name == 0 || req.body.dob == 0 || req.body.email == 0 || req.body.phone == 0 || req.body.phone[3] != '-' || req.body.phone[7] != '-') {
+            return;
+        }
         var inserts = [req.body.clinicID, req.body.name, req.body.dob, req.body.sex, req.body.email, req.body.phone, req.body.certification, req.params.id];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){

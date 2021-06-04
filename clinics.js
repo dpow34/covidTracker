@@ -108,6 +108,14 @@ module.exports = function(){
     /* The URI that update data is sent to in order to update a clinic */
     router.put('/:id', function(req, res){
         var mysql = req.app.get('mysql');
+        if (req.body.clinicName == 0 || req.body.address == 0) {
+            return;
+        }
+        if (req.body.phone != 0){
+            if (req.body.phone[3] != '-' || req.body.phone[7] != '-') {
+                return
+            }
+        }
         var sql = "UPDATE clinics SET clinicName=?, address=?, parking=?, publicTransport=?, phone=? WHERE clinicID=?";
         var inserts = [req.body.clinicName, req.body.address, req.body.parking, req.body.publicTransport, req.body.phone, req.params.id];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){

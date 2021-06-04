@@ -16,7 +16,7 @@ module.exports = function(){
 
     /* Get patients and their details */
     function getPatients(res, mysql, context, complete){
-        mysql.pool.query("SELECT patients.patientID, vaccines.vacType as vaccine, name, dob, sex, email, phone FROM patients INNER JOIN vaccines ON vaccine = vaccines.vaccineID", function(error, results, fields){
+        mysql.pool.query("SELECT patients.patientID, vaccines.vacType as vaccine, name, dob, sex, email, phone FROM patients LEFT JOIN vaccines ON vaccine = vaccines.vaccineID", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -29,7 +29,7 @@ module.exports = function(){
     /* Find patient whose name starts with a given string in the req */
     function getPatientWithNameLike(req, res, mysql, context, complete) {
       //sanitize the input as well as include the % character
-       var query = "SELECT patients.patientID, vaccines.vacType as vaccine, name, dob, sex, email, phone FROM patients INNER JOIN vaccines ON vaccine = vaccines.vaccineID where name LIKE " + mysql.pool.escape(req.params.s + '%');
+       var query = "SELECT patients.patientID, vaccines.vacType as vaccine, name, dob, sex, email, phone FROM patients LEFT JOIN vaccines ON vaccine = vaccines.vaccineID where name LIKE " + mysql.pool.escape(req.params.s + '%');
       mysql.pool.query(query, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
@@ -108,7 +108,7 @@ module.exports = function(){
         var mysql = req.app.get('mysql');
         var sql = "INSERT INTO patients (patientID, vaccine, name, dob, sex, email, phone) VALUES (?,?,?,?,?,?,?)";
         if (req.body.vaccineID == ''){
-            req.body.vaccineID = NULL;
+            req.body.vaccineID = null;
         }
         var inserts = [req.body.patientID, req.body.vaccineID, req.body.name, req.body.dob, req.body.sex, req.body.email, req.body.phone];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
@@ -116,7 +116,8 @@ module.exports = function(){
                 console.log(JSON.stringify(error))
                 res.write(JSON.stringify(error));
                 res.end();
-            }else{
+             }
+            else{
                 res.redirect('/patients');
             }
         });
@@ -127,7 +128,15 @@ module.exports = function(){
         var mysql = req.app.get('mysql');
         var sql = "UPDATE patients SET vaccine=?, name=?, dob=?, sex=?, email=?, phone=? WHERE patientID=?";
         if (req.body.vaccineID == ''){
-            req.body.vaccineID = NULL;
+            req.body.vaccineID = null;
+        }
+        if (req.body.name == 0 || req.body.dob == 0) {
+            return;
+        }
+        if (req.body.phone != 0){
+            if (req.body.phone[3] != '-' || req.body.phone[7] != '-') {
+                return
+            }
         }
         var inserts = [req.body.vaccineID, req.body.name, req.body.dob, req.body.sex, req.body.email, req.body.phone, req.params.id];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
